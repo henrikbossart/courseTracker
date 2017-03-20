@@ -11,19 +11,8 @@ import static org.junit.Assert.*;
  */
 public class LoginActivityTest {
 
-/*    @Before
-    public void setUp() throws Exception {
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }*/
-
     @Test
     public void onCreate() throws Exception {
-
 
 
     }

@@ -10,15 +10,6 @@ import static org.junit.Assert.*;
  * Created by malfridhendenaaraas on 20.03.2017.
  */
 public class DataBaseHelperTest {
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }
 
     @Test
     public void onCreate() throws Exception {
