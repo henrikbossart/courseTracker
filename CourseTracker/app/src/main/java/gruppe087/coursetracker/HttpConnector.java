@@ -20,11 +20,11 @@ import java.util.Arrays;
 
 public class HttpConnector extends AsyncTask<String, Void, JSONArray> {
 
-    private String url                          = "http://138.197.33.171/php/";
+    private String baseUrl                          = "http://138.197.33.171/php/";
+    private String url;
     public static final String REQUEST_METHOD   = "GET";
     public static final int READ_TIMEOUT        = 15000;
     public static final int CONNECTION_TIMEOUT  = 15000;
-
     public HttpConnector(String command, String... argument){
 
         commandChanger(command, argument);
@@ -34,30 +34,29 @@ public class HttpConnector extends AsyncTask<String, Void, JSONArray> {
     public void commandChanger(String command, String... argument){
         switch (command){
             case "getCourse":
-                url = url + "getCourse.php?courseID='" + argument + "'";
+                url = baseUrl + "getCourse.php?courseID=" + argument;
                 break;
 
             case "getCourses":
-                url = url + "getCourses.php";
+                url = baseUrl + "getCourses.php";
                 break;
 
             case "addCoursesSetup":
-                url = url + "addCoursesSetup.php";
+                url = baseUrl + "addCoursesSetup.php";
                 break;
 
             case "getLectures":
-                url = url + "getLectures.php";
+                url = baseUrl + "getLectures.php";
                 break;
 
             case "getLecture":
                 //given that the arguments passed into the method are COURSEID, DATE, and DATE is on
                 // format YYYY-MM-DD
-                url = url + "getLecture.php?courseID=" + argument + "&" + argument;
+                url = baseUrl + "getLecture.php?courseID=" + argument + "&" + argument;
                 break;
 
         }
     }
-
 
     @Override
     protected JSONArray doInBackground(String... params) {
@@ -108,7 +107,12 @@ public class HttpConnector extends AsyncTask<String, Void, JSONArray> {
 
     }
 
-    private String generateURL(String[] params){
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String generateURL(String[] params){
         String stringURL = url;
         if(params.length == 0){
             return stringURL;
@@ -122,12 +126,15 @@ public class HttpConnector extends AsyncTask<String, Void, JSONArray> {
                 stringURL += params[i];
             }
         }
+        url = stringURL;
         return stringURL;
     }
 
     @Override
     protected void onPostExecute(JSONArray result) {
+
         super.onPostExecute(result);
+        this.cancel(true);
     }
 
     public JSONArray JSONArrayConvert(String input) {

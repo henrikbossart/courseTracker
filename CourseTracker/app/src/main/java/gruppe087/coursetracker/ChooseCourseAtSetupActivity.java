@@ -155,8 +155,6 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-
         // Create a List from String Array elements
         arrayAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_list_item_1, overview_list);
