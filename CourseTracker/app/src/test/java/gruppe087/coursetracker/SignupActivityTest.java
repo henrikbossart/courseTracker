@@ -16,24 +16,26 @@ public class SignupActivityTest {
 
     SignupActivity signupTest = new SignupActivity();
 
-    //to String
+    /*to String
     String usrname = signupTest.editTextUserName.getText().toString();
     String password = signupTest.editTextPassword.getText().toString();
-    String confirmPassword = signupTest.editTextConfirmPassword.getText().toString();
+    String confirmPassword = signupTest.editTextConfirmPassword.getText().toString();*/
 
     @Test
     public void onCreate() throws Exception {
-        //sjekker at passordene matcher og feltene ikke er tomme
-        //TODO: Implementere "liksom-input" for at try-blokka skal funke
-        try {
-            assertEquals(password, confirmPassword);
-            assertTrue(usrname != null);
-            assertTrue(password != null);
-            assertTrue(confirmPassword != null);
-        }
-        catch (Exception e){
-            System.err.println("Woops");
-        }
+        //dummy input
+        String usrname = "Kari";
+        String password = "Hemmelig";
+        String confirmPasswordCorrect = "Hemmelig";
+        String confirmPasswordIncorrect = "Hemelig";
+
+        SignupActivity signupTest = new SignupActivity();
+
+        assertEquals(password, confirmPasswordCorrect);
+        assertNotEquals(password, confirmPasswordIncorrect);
+        assertTrue(usrname != null);
+        assertTrue(password != null);
+        assertTrue(confirmPasswordCorrect != null);
     }
 
 }
