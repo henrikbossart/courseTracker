@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/henrikbossart/courseTracker.png?label=ready&title=Ready)](https://waffle.io/henrikbossart/courseTracker)
 
 # Course Tracker
 
