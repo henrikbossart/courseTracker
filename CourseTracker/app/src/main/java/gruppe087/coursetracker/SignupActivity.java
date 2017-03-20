@@ -50,6 +50,7 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password does not match", Toast.LENGTH_LONG).show();
                     return;
                 }
+                //TODO: Implement Toast when username already exists!
                 else
                 {
                     // Save the Data in Database
