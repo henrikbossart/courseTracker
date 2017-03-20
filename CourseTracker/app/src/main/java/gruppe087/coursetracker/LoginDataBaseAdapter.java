@@ -19,7 +19,7 @@ public class LoginDataBaseAdapter {
     // TODO: Create public field for each column in your table.
     // SQL Statement to create a new database.
     static final String DATABASE_CREATE = "create table "+"LOGIN"+
-            "( " +"ID"+" integer primary key autoincrement,"+ "USERNAME  text,PASSWORD text); ";
+            "( USERNAME  text primary key not null,PASSWORD text); ";
     // Variable to hold the database instance
     public  SQLiteDatabase db;
     // Context of the application using the database.

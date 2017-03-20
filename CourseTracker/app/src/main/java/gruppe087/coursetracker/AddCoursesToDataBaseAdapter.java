@@ -15,8 +15,8 @@ import java.util.List;
 
 public class AddCoursesToDataBaseAdapter extends DataBaseAdapter {
 
-    static final String ADD_COURSES_TABLE = "create table "+"COURSES"+
-            "( " +"COURSEID"+" text primary key,"+ "COURSENAME  text,LOCATION text,EXAMDATE text); ";
+    static final String ADD_COURSES_TABLE = "create table "+"COURSE"+
+            "( " +"COURSEID"+" text primary key not null,"+ "COURSENAME  text,LOCATION text,EXAMDATE text); ";
 
 
     public AddCoursesToDataBaseAdapter(Context _context) {
@@ -38,34 +38,34 @@ public class AddCoursesToDataBaseAdapter extends DataBaseAdapter {
         newValues.put("EXAMDATE", examDate);
 
         // Insert the row into your table
-        db.insert("COURSES", null, newValues);
+        db.insert("COURSE", null, newValues);
     }
 
     // Key as argument
     public int deleteEntry(String courseID) {
         String where = "COURSEID=?";
-        int numberOFEntriesDeleted = db.delete("COURSES", where, new String[]{courseID});
+        int numberOFEntriesDeleted = db.delete("COURSE", where, new String[]{courseID});
         // Toast.makeText(context, "Number fo Entry Deleted Successfully : "+numberOFEntriesDeleted, Toast.LENGTH_LONG).show();
         return numberOFEntriesDeleted;
     }
 
     public ArrayList<String> getSingleEntry(String courseID){
-        Cursor cursor = db.query("COURSES", null, " COURSEID=?", new String[]{courseID}, null, null, null);
-                if(cursor.getCount()<1){ // CourseID does not exist
-                    cursor.close();
-                    Toast.makeText(context, "There is no course with this course code.",Toast.LENGTH_LONG).show();
-                    return null;
+        Cursor cursor = db.query("COURSE", null, " COURSEID=?", new String[]{courseID}, null, null, null);
+        if(cursor.getCount()<1){ // CourseID does not exist
+            cursor.close();
+            Toast.makeText(context, "There is no course with this course code.",Toast.LENGTH_LONG).show();
+            return null;
 
-                }
+        }
 
-                cursor.moveToFirst();
-                ArrayList<String> row = new ArrayList<String>();
-                row.add(courseID);
-                row.add(cursor.getString(cursor.getColumnIndex("COURSENAME")));
-                row.add(cursor.getString(cursor.getColumnIndex("LOCATION")));
-                row.add(cursor.getString(cursor.getColumnIndex("EXAMDATE")));
-                cursor.close();
-                return row;
+        cursor.moveToFirst();
+        ArrayList<String> row = new ArrayList<String>();
+        row.add(courseID);
+        row.add(cursor.getString(cursor.getColumnIndex("COURSENAME")));
+        row.add(cursor.getString(cursor.getColumnIndex("LOCATION")));
+        row.add(cursor.getString(cursor.getColumnIndex("EXAMDATE")));
+        cursor.close();
+        return row;
     }
 
     public void updateEntry(String courseID, String courseName, String location, String examDate){
@@ -77,6 +77,6 @@ public class AddCoursesToDataBaseAdapter extends DataBaseAdapter {
         updatedValues.put("EXAMDATE", examDate);
 
         String where="COURSEID = ?";
-        db.update("COURSES",updatedValues, where, new String[]{courseID});
+        db.update("COURSE",updatedValues, where, new String[]{courseID});
     }
 }

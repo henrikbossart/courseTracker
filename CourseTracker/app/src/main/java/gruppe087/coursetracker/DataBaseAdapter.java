@@ -20,6 +20,8 @@ public abstract class DataBaseAdapter {
 
     // Variable to hold the database instance
     public SQLiteDatabase db;
+
+
     // Context of the application using the database.
     protected final Context context;
     // Database open/upgrade helper

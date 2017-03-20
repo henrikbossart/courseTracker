@@ -19,12 +19,31 @@ public class DataBaseHelper extends SQLiteOpenHelper
     {
 	           super(context, name, factory, version);
 	}
+
+	static final String ADD_LECTURE_TABLE =
+			"CREATE TABLE lecture("+
+			"courseid 	TEXT NOT NULL,"+
+			"date  		TEXT NOT NULL," +
+			"time 		TEXT NOT NULL," +
+			"room 		TEXT NOT NULL," +
+			"PRIMARY KEY(courseid, date, time, room)" +
+			");";
+
+	static final String ADD_USER_COURSE_TABLE =
+			"CREATE TABLE usercourse("+
+			"username 	TEXT NOT NULL,"+
+			"courseid 	TEXT NOT NULL," +
+			"PRIMARY KEY(username, courseid)" +
+			"); ";
 	// Called when no database exists in disk and the helper class needs
 	// to create a new one.
 	@Override
 	public void onCreate(SQLiteDatabase _db) 
 	{
 			_db.execSQL(LoginDataBaseAdapter.DATABASE_CREATE);
+			_db.execSQL(AddCoursesToDataBaseAdapter.ADD_COURSES_TABLE);
+			_db.execSQL(ADD_LECTURE_TABLE);
+			_db.execSQL(ADD_USER_COURSE_TABLE);
 			
 	}
 	// Called when there is a database version mismatch meaning that the version

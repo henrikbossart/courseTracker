@@ -2,6 +2,8 @@ package gruppe087.coursetracker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -45,8 +47,12 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     ArrayList<String> overview_list;
     HashSet<Integer> selected = new HashSet<Integer>();
     LoginDataBaseAdapter loginDataBaseAdapter;
-    AddCoursesToDataBaseAdapter dataBaseAdapter;
+    AddCoursesToDataBaseAdapter addCoursesToDataBaseAdapter;
+    UserCourseAdapter userCourseAdapter;
     ArrayList<String> infoList;
+    public static final String PREFS_NAME = "CTPrefs";
+    SharedPreferences settings;
+    String username;
 
 
 
@@ -55,9 +61,15 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        settings = getSharedPreferences(PREFS_NAME, 0);
+        username = settings.getString("username", "default");
+
+
         // get Instance  of Database Adapter
-        dataBaseAdapter = new AddCoursesToDataBaseAdapter(this);
-        dataBaseAdapter = dataBaseAdapter.open();
+        addCoursesToDataBaseAdapter = new AddCoursesToDataBaseAdapter(this);
+        addCoursesToDataBaseAdapter = addCoursesToDataBaseAdapter.open();
+        userCourseAdapter = new UserCourseAdapter(this).open();
+
 
         setContentView(R.layout.activity_choose_course_at_setup);
 
@@ -145,21 +157,29 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
                     }
                     // Parsing the result and turning it into an JSONArray, so that it is simpler to pick
                     // out the fields that are wanted.
+                    String courseID = null;
                     try {
                         System.out.println(result);
                         JSONArray jsonArray = new JSONArray(result);
 
                         JSONObject jsonObject = jsonArray.getJSONObject(0);
-                        String courseID = jsonObject.getString("courseID");
+                        courseID = jsonObject.getString("courseID");
                         String courseName = jsonObject.getString("courseName");
                         String location = jsonObject.getString("location");
                         String examDate = jsonObject.getString("examDate");
                         System.out.println(courseID + " " + courseName + " " + location + " " + examDate);
 
-                        dataBaseAdapter.insertEntry(courseID, courseName, location, examDate);
+                        addCoursesToDataBaseAdapter.insertEntry(courseID, courseName, location, examDate);
+                        userCourseAdapter.insertEntry(username, courseID);
+
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+                    } catch (SQLiteConstraintException e) {
+                        e.printStackTrace();
+                        userCourseAdapter.insertEntry(username, courseID);
+
                     }
 
                 }
