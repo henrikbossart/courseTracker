@@ -1,6 +1,8 @@
 package gruppe087.coursetracker;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -8,21 +10,20 @@ import android.database.sqlite.SQLiteDatabase;
  * Created by petercbu on 15.03.2017.
  */
 
-public class DataBaseAdapter {
+public abstract class DataBaseAdapter {
 
     static final String DATABASE_NAME = "userdb.db";
     static final int DATABASE_VERSION = 1;
     public static final int NAME_COLUMN = 1;
     // TODO: Create public field for each column in your table.
     // SQL Statement to create a new database.
-    static final String DATABASE_CREATE = "create table "+"LOGIN"+
-            "( " +"ID"+" integer primary key autoincrement,"+ "USERNAME  text,PASSWORD text); ";
+
     // Variable to hold the database instance
     public SQLiteDatabase db;
     // Context of the application using the database.
-    private final Context context;
+    protected final Context context;
     // Database open/upgrade helper
-    private DataBaseHelper dbHelper;
+    protected DataBaseHelper dbHelper;
     public DataBaseAdapter(Context _context)
     {
         context = _context;
@@ -42,4 +43,5 @@ public class DataBaseAdapter {
     {
         return db;
     }
+
 }

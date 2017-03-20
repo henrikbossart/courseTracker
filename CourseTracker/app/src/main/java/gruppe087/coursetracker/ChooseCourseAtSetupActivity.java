@@ -22,6 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +45,9 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     ArrayList<String> overview_list;
     HashSet<Integer> selected = new HashSet<Integer>();
     LoginDataBaseAdapter loginDataBaseAdapter;
+    AddCoursesToDataBaseAdapter dataBaseAdapter;
+    ArrayList<String> infoList;
+
 
 
 
@@ -50,8 +56,8 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // get Instance  of Database Adapter
-        loginDataBaseAdapter=new LoginDataBaseAdapter(this);
-        loginDataBaseAdapter=loginDataBaseAdapter.open();
+        dataBaseAdapter = new AddCoursesToDataBaseAdapter(this);
+        dataBaseAdapter = dataBaseAdapter.open();
 
         setContentView(R.layout.activity_choose_course_at_setup);
 
@@ -115,10 +121,50 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
         //END LISTVIEW
 
+
+
+
         final Button button = (Button) findViewById(R.id.dummy_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Define action on click
+                ArrayList<String> courseCodes = new ArrayList<String>();
+                for (int i : selected){
+                    String courseCode = overview_list.get(i).split(" ")[0];
+                    getRequest = new HttpGetRequest("getCourse.php ");
+                    String result;
+                    try {
+                        result = getRequest.execute("courseID",courseCode).get();
+                    } catch (InterruptedException e) {
+
+                        e.printStackTrace();
+                        result=null;
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                        result=null;
+                    }
+                    // Parsing the result and turning it into an JSONArray, so that it is simpler to pick
+                    // out the fields that are wanted.
+                    try {
+                        System.out.println(result);
+                        JSONArray jsonArray = new JSONArray(result);
+
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                        String courseID = jsonObject.getString("courseID");
+                        String courseName = jsonObject.getString("courseName");
+                        String location = jsonObject.getString("location");
+                        String examDate = jsonObject.getString("examDate");
+                        System.out.println(courseID + " " + courseName + " " + location + " " + examDate);
+
+                        dataBaseAdapter.insertEntry(courseID, courseName, location, examDate);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
                 //Intent myIntent = new Intent(RegisterNameActivity.this, TodayOverviewActivity.class);
                 Intent myIntent = new Intent(ChooseCourseAtSetupActivity.this, MainActivity.class);
                 //Optional parameters: myIntent.putExtra("key", value);
@@ -167,7 +213,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
     public void initList(){
 
-         listItems = new ArrayList<String>();
+        listItems = new ArrayList<String>();
         // Initializing getRequest class
         getRequest = new HttpGetRequest("addCoursesSetup.php");
         String result;
@@ -180,10 +226,12 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
             e.printStackTrace();
             result=null;
         }
+        System.out.println(result);
 
 
         String[] overview = new String[]{};
         overview_list = new ArrayList<String>(Arrays.asList(overview));
+        infoList = new ArrayList<String>();
 
         // Parsing the result and turning it into an JSONArray, so that it is simpler to pick
         // out the fields that are wanted.
@@ -194,7 +242,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
                 String courseID = jsonObject.getString("courseID");
                 String courseName = jsonObject.getString("courseName");
                 //String location = jsonObject.getString("location");
-                //String time = jsonObject.getString("TIME_FORMAT(time, '%H:%i')");
+                //String examDate = jsonObject.getString("examDate");
 
                 overview_list.add(courseID + " " + courseName);
             }

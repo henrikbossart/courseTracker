@@ -77,7 +77,8 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
     }
 
     private String generateURL(String[] params){
-        String stringURL = "http://138.197.33.171/php/" + filename;
+        String stringURL = "http://138.197.33.171/php/" + filename.trim();
+
         if(params.length == 0){
             return stringURL;
         }
@@ -90,6 +91,7 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
                 stringURL += params[i];
             }
         }
+        System.out.println(stringURL);
         return stringURL;
     }
 

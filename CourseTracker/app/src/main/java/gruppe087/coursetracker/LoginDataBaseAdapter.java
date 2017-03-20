@@ -13,8 +13,8 @@ update record, Delete record, Close DB, and Cursor related stuffs.
 
 public class LoginDataBaseAdapter {
 
-    static final String DATABASE_NAME = "userdb.db";
-    static final int DATABASE_VERSION = 1;
+    protected static final String DATABASE_NAME = "userdb.db";
+    protected static final int DATABASE_VERSION = 1;
     public static final int NAME_COLUMN = 1;
     // TODO: Create public field for each column in your table.
     // SQL Statement to create a new database.
@@ -57,11 +57,10 @@ public class LoginDataBaseAdapter {
         db.insert("LOGIN", null, newValues);
         ///Toast.makeText(context, "Reminder Is Successfully Saved", Toast.LENGTH_LONG).show();
     }
-    public int deleteEntry(String UserName)
+    public int deleteEntry(String userName)
     {
-        //String id=String.valueOf(ID);
         String where="USERNAME=?";
-        int numberOFEntriesDeleted= db.delete("LOGIN", where, new String[]{UserName}) ;
+        int numberOFEntriesDeleted= db.delete("LOGIN", where, new String[]{userName}) ;
         // Toast.makeText(context, "Number fo Entry Deleted Successfully : "+numberOFEntriesDeleted, Toast.LENGTH_LONG).show();
         return numberOFEntriesDeleted;
     }

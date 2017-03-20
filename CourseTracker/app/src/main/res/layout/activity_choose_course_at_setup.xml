@@ -42,28 +42,19 @@
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="413dp"
+            android:layout_height="403dp"
             android:id="@+id/initlv"
             style="@style/List" />
 
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
+        <Button
+            android:id="@+id/dummy_button"
             android:layout_width="match_parent"
-            android:layout_height="683dp"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
-
-            <Button
-                android:id="@+id/dummy_button"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Register courses"
-                android:onClick="Register courses"/>
-
-        </LinearLayout>
+            android:layout_height="52dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:onClick="Register courses"
+            android:text="Register courses" />
 
     </LinearLayout>
 
