@@ -34,8 +34,8 @@ public class UserCourseAdapter extends DataBaseAdapter {
 
     public int deleteEntry(String username, String courseID){
         String where = "username=? AND courseID =?";
-        int numberOfEntriesDeleted = db.delete("usercourse", where, new String[]{username,courseID});
-        return numberOfEntriesDeleted;
+        return db.delete("usercourse", where, new String[]{username,courseID});
+
     }
 
     public ArrayList<String> getSingleEntry(String username, String courseID) {
