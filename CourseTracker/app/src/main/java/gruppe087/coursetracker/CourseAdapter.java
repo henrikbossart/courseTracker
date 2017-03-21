@@ -7,29 +7,30 @@ import android.database.SQLException;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by petercbu on 15.03.2017.
  */
 
-public class AddCoursesToDataBaseAdapter extends DataBaseAdapter {
+public class CourseAdapter extends DataBaseAdapter {
 
     static final String ADD_COURSES_TABLE = "create table "+"COURSE"+
             "( " +"COURSEID"+" text primary key not null,"+ "COURSENAME  text,LOCATION text,EXAMDATE text); ";
 
 
-    public AddCoursesToDataBaseAdapter(Context _context) {
+    public CourseAdapter(Context _context) {
         super(_context);
     }
 
-    public  AddCoursesToDataBaseAdapter open() throws SQLException {
+    public CourseAdapter open() throws SQLException {
         db = dbHelper.getWritableDatabase();
         return this;
     }
 
 
     public void insertEntry(String courseID, String courseName, String location, String examDate){
+
+
         ContentValues newValues = new ContentValues();
         // Assign values for each row
         newValues.put("COURSEID", courseID);
@@ -37,8 +38,20 @@ public class AddCoursesToDataBaseAdapter extends DataBaseAdapter {
         newValues.put("LOCATION", location);
         newValues.put("EXAMDATE", examDate);
 
-        // Insert the row into your table
-        db.insert("COURSE", null, newValues);
+        Cursor cursor = null;
+        String sql ="SELECT courseid FROM COURSE WHERE courseid='"+ courseID+ "'";
+        cursor= db.rawQuery(sql,null);
+
+        if(cursor.getCount()>0){
+            //courseID found
+            return;
+        }else{
+            //courseID not found
+            // Insert the row into your table
+            db.insert("COURSE", null, newValues);
+        }
+        cursor.close();
+
     }
 
     // Key as argument

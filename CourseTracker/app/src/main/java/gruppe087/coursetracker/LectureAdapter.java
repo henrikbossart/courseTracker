@@ -31,6 +31,7 @@ public class LectureAdapter extends DataBaseAdapter {
         newValues.put("room", room);
         newValues.put("missed", missed);
 
+
         db.insert("lecture", null, newValues);
     }
 

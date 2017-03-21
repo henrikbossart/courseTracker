@@ -27,19 +27,19 @@ public class UserCourseAdapter extends DataBaseAdapter {
         ContentValues newValues = new ContentValues();
 
         newValues.put("username", username);
-        newValues.put("courseID", courseID);
+        newValues.put("courseid", courseID);
 
         db.insert("usercourse", null, newValues);
     }
 
     public int deleteEntry(String username, String courseID){
-        String where = "username=? AND courseID =?";
+        String where = "username=? AND courseid=?";
         return db.delete("usercourse", where, new String[]{username,courseID});
 
     }
 
     public ArrayList<String> getSingleEntry(String username, String courseID) {
-        Cursor cursor = db.query("usercourse", null, "username=? AND courseID=?", new String[]{username, courseID}, null, null, null);
+        Cursor cursor = db.query("usercourse", null, "username=? AND courseid=?", new String[]{username, courseID}, null, null, null);
         if (cursor.getCount() < 1) { // Key does not exist
             cursor.close();
             Toast.makeText(context, "There is no course with this key pair.", Toast.LENGTH_LONG).show();
@@ -54,13 +54,29 @@ public class UserCourseAdapter extends DataBaseAdapter {
         return row;
     }
 
+    public ArrayList<String> getCoursesForUser(String username){
+        ArrayList<String> courses = new ArrayList<String>();
+        Cursor cursor = db.query("usercourse", null, "username=?", new String[]{username}, null, null, null);
+        if (cursor.getCount() < 1) { // Key does not exist
+            cursor.close();
+            Toast.makeText(context, "There is no course with this key pair.", Toast.LENGTH_LONG).show();
+            return null;
+        }
+        cursor.moveToFirst();
+        for (int i = 0; i < cursor.getCount(); i++){
+            courses.add(cursor.getString(cursor.getColumnIndex("courseid")));
+            cursor.moveToNext();
+        }
+        return courses;
+    }
+
     public void updateEntry(String username, String courseID){
         ContentValues updatedValues = new ContentValues();
 
         updatedValues.put("username", username);
-        updatedValues.put("courseID", courseID);
+        updatedValues.put("courseid", courseID);
 
-        String where="username=? AND courseID=?";
+        String where="username=? AND courseid=?";
         db.update("usercourse", updatedValues, where, new String[]{username, courseID});
 
     }
