@@ -20,7 +20,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 
 
@@ -56,7 +61,8 @@ public class OverviewFragment extends Fragment {
     private ArrayList<String> createAgendaList(){
         userCourseAdapter = new UserCourseAdapter(getContext());
         userCourseAdapter.open();
-        ArrayList<String> listItems = new ArrayList<String>();
+        //TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>();
+        ArrayList<String> returnList = new ArrayList<String>();
         ArrayList<String> courses = userCourseAdapter.getCoursesForUser(settings.getString("username", "default"));
 
         for (String courseID : courses){
@@ -82,15 +88,21 @@ public class OverviewFragment extends Fragment {
                     String time = jsonObject.getString("time");
                     String room = jsonObject.getString("room");
                     String row = courseID + "\n" + courseName + "\nTid:\t" + time + "\nRom:\t" + room;
-                    listItems.add(row);
-
+                    //Integer hour = Integer.parseInt(time.split(":")[0]);
+                    //sortMap.put(hour,row);
+                    returnList.add(row);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         }
 
-        return listItems;
+        //for (Map.Entry<Integer, String> entry : sortMap.entrySet()){
+        //    returnList.add(entry.getValue());
+        //}
+
+        return returnList;
     }
 
 
