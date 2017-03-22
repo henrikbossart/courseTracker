@@ -1,16 +1,13 @@
 package gruppe087.coursetracker;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
@@ -18,22 +15,15 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 
@@ -47,7 +37,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     ArrayList<String> overview_list;
     HashSet<Integer> selected = new HashSet<Integer>();
     LoginDataBaseAdapter loginDataBaseAdapter;
-    AddCoursesToDataBaseAdapter addCoursesToDataBaseAdapter;
+    CourseAdapter courseAdapter;
     UserCourseAdapter userCourseAdapter;
     ArrayList<String> infoList;
     public static final String PREFS_NAME = "CTPrefs";
@@ -66,8 +56,8 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
 
         // get Instance  of Database Adapter
-        addCoursesToDataBaseAdapter = new AddCoursesToDataBaseAdapter(this);
-        addCoursesToDataBaseAdapter = addCoursesToDataBaseAdapter.open();
+        courseAdapter = new CourseAdapter(this);
+        courseAdapter = courseAdapter.open();
         userCourseAdapter = new UserCourseAdapter(this).open();
 
 
@@ -93,7 +83,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
                 int pos = overview_list.indexOf(selectedFromList);
 
                 if (!isSelected(pos)){
-                    view.setBackgroundColor(getResources().getColor(R.color.grey));
+                    view.setBackgroundColor(getResources().getColor(R.color.gray));
                     select(pos);
                 } else {
                     view.setBackgroundColor(getResources().getColor(R.color.white));
@@ -159,7 +149,6 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
                     // out the fields that are wanted.
                     String courseID = null;
                     try {
-                        System.out.println(result);
                         JSONArray jsonArray = new JSONArray(result);
 
                         JSONObject jsonObject = jsonArray.getJSONObject(0);
@@ -167,9 +156,10 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
                         String courseName = jsonObject.getString("courseName");
                         String location = jsonObject.getString("location");
                         String examDate = jsonObject.getString("examDate");
-                        System.out.println(courseID + " " + courseName + " " + location + " " + examDate);
 
-                        addCoursesToDataBaseAdapter.insertEntry(courseID, courseName, location, examDate);
+
+
+                        courseAdapter.insertEntry(courseID, courseName, location, examDate);
                         userCourseAdapter.insertEntry(username, courseID);
 
 
@@ -200,7 +190,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
             String s = (String) customAdapter.getItem(i);
             int index = overview_list.indexOf(s);
             if (selected.contains(index)) {
-                v.setBackgroundColor(getResources().getColor(R.color.grey));
+                v.setBackgroundColor(getResources().getColor(R.color.gray));
             } else {
                 v.setBackgroundColor(Color.WHITE);
             }
@@ -226,7 +216,6 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
         ArrayList sortedList = new ArrayList(selected);
         Collections.sort(sortedList);
-        System.out.println(sortedList);
         customAdapter.notifyDataSetChanged();
 
     }
@@ -246,7 +235,6 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
             e.printStackTrace();
             result=null;
         }
-        System.out.println(result);
 
 
         String[] overview = new String[]{};
