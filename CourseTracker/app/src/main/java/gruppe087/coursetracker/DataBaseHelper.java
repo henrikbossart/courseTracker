@@ -22,10 +22,10 @@ public class DataBaseHelper extends SQLiteOpenHelper
 
 	static final String ADD_LECTURE_TABLE =
 			"CREATE TABLE lecture("+
-			"courseid 	TEXT NOT NULL,"+
-			"timestamp  INT NOT NULL," +
-			"room 		TEXT NOT NULL," +
-			"missed		INT NOT NULL" +
+			"courseid 	TEXT NOT NULL, "+
+			"timestamp  INT NOT NULL, " +
+			"room 		TEXT NOT NULL, " +
+			"missed		INT NOT NULL, " +
 			"PRIMARY KEY(courseid, timestamp, room)" +
 			");";
 
