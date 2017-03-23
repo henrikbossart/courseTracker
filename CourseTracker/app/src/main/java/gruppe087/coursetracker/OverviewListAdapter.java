@@ -23,6 +23,7 @@ import static android.R.attr.resource;
 
 public class OverviewListAdapter<E> extends ArrayAdapter<E> {
     LectureAdapter lectureAdapter;
+
     public OverviewListAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull List<E> objects) {
         super(context, resource, textViewResourceId, objects);
     }
@@ -33,34 +34,37 @@ public class OverviewListAdapter<E> extends ArrayAdapter<E> {
         View view = super.getView(position, convertView, parent);
         TextView tv = (TextView) view.findViewById(R.id.textview);
         String text = (String) tv.getText();
+        System.out.println(text);
         String[] details = text.split("(\n|\t)");
         String courseID = details[0];
         String time = details[3];
         Date dNow = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = dateFormat.format(dNow);
-        Boolean lectureMissed = lectureMissed(courseID, time, date);
-        if (lectureMissed) {
+        System.out.println("TIME: " + time);
+        System.out.println(date);
+        if (lectureMissed(courseID, time, date)) {
             tv.setTextColor(getContext().getResources().getColor(R.color.gray));
+        } else {
+            tv.setTextColor(getContext().getResources().getColor(R.color.colorPrimaryDark));
         }
         return view;
     }
 
-    public boolean lectureMissed(String courseID, String time, String date){
+    public boolean lectureMissed(String courseID, String time, String date) {
         lectureAdapter = new LectureAdapter(getContext());
         lectureAdapter.open();
         time = time + ":00";
-        System.out.println(courseID);
-        System.out.println(time);
-        System.out.println(date);
-        ArrayList<java.lang.String> lecture = lectureAdapter.getSingleEntry(courseID, time, date);
+        ArrayList<String> lecture = lectureAdapter.getSingleEntry(courseID, time, date);
+        System.out.println(lecture);
         int missed = Integer.parseInt(lecture.get(4));
         Boolean lectureMissed;
-        if (missed < 1){
+        if (missed < 1) {
             lectureMissed = false;
         } else {
             lectureMissed = true;
         }
+        System.out.println(lectureMissed);
         return lectureMissed;
     }
 }
