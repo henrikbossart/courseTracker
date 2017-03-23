@@ -40,11 +40,6 @@ public class OverviewFragment extends Fragment {
     EditText text;
     View rootView;
 
-    String currentDate = DateFormat.getDateInstance().format(Calendar.getInstance().getTime());
-
-    public String getCurrentDate(){
-        return currentDate; //Comes out in this format: 20.mar.2017 (example)
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -123,10 +118,5 @@ public class OverviewFragment extends Fragment {
         arrayAdapter.notifyDataSetChanged();
     }
 
-    /*    // Tatt fra gamle Activity'en før vi gikk over til fragments
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_missed_lectures);
 
 }
