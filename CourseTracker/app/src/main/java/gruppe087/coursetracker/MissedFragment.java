@@ -15,7 +15,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
@@ -29,14 +32,12 @@ public class MissedFragment extends Fragment {
     UserCourseAdapter userCourseAdapter;
     SharedPreferences settings;
     public static final String PREFS_NAME = "CTPrefs";
-    ArrayAdapter<String> arrayAdapter;
+    MissedListAdapter<String> arrayAdapter;
     View rootView;
     LectureAdapter lectureAdapter;
-    Toolbox toolbox;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        toolbox = new Toolbox();
         rootView = inflater.inflate(R.layout.fragment_missed, container, false);
         missedListView = (ListView) rootView.findViewById(R.id.missed_lv);
         settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
@@ -52,6 +53,12 @@ public class MissedFragment extends Fragment {
         TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>();
         lectureAdapter = new LectureAdapter(getContext());
         lectureAdapter.open();
+        Date dNow = new Date();
+        DateFormat dateValueFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        String thisTime = timeFormat.format(dNow);
+        int timeValueNow = Toolbox.timeToInt(thisTime);
+        thisTime = thisTime + ":00";
 
         for (String courseID : courses){
             String result;
@@ -78,7 +85,16 @@ public class MissedFragment extends Fragment {
                     String date = jsonObject.getString("date");
                     String row = courseID + "\n" + courseName + "\nTid:\t" + time + "\nRom:\t" + room;
                     Integer hour = Integer.parseInt(time.split(":")[0]);
-                    lectureAdapter.setMissed(courseID, time, date,  1);
+                    int timeValueLecture = Toolbox.timeToInt(time);
+                    timeValueLecture = timeValueLecture + 90;
+                    System.out.println("Now: " + timeValueNow + " " + thisTime);
+                    System.out.println("Lecture: " + timeValueLecture + " " + time + "\n");
+                    if (timeValueNow < timeValueLecture){
+                        lectureAdapter.setMissed(courseID, time, date,  0);
+                    } else {
+                        lectureAdapter.setMissed(courseID, time, date, 1);
+                    }
+
                     if (lectureMissed(courseID, time, date)){
                         sortMap.put(hour,row);
                     }
@@ -99,10 +115,8 @@ public class MissedFragment extends Fragment {
         lectureAdapter = new LectureAdapter(getActivity().getApplicationContext());
         lectureAdapter.open();
         time = time + ":00";
-        System.out.println(courseID);
-        System.out.println(time);
-        System.out.println(date);
         ArrayList<String> lecture = lectureAdapter.getSingleEntry(courseID, time, date);
+        System.out.println(lecture);
         int missed = Integer.parseInt(lecture.get(4));
         Boolean lectureMissed;
         if (missed < 1){
@@ -119,7 +133,7 @@ public class MissedFragment extends Fragment {
         // Initializing getRequest class
 
         // Create a List from String Array elements
-        arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.listitem, R.id.textview, listItems);
+        arrayAdapter = new MissedListAdapter<String>(getActivity().getApplicationContext(), R.layout.listitem, R.id.textview, listItems);
         // DataBind ListView with items from SelectListAdapter
         missedListView.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
