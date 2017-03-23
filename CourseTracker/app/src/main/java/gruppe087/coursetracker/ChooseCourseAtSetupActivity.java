@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutionException;
 
 public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
-    CustomAdapter<String> customAdapter;
+    SelectListAdapter<String> selectListAdapter;
     ArrayList<String> listItems;
     ListView lv;
     EditText et;
@@ -64,7 +64,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_course_at_setup);
 
         lv = (ListView)findViewById(R.id.initlv);
-        customAdapter = new CustomAdapter<String>(this, listItems, selected);
+        selectListAdapter = new SelectListAdapter<String>(this, listItems, selected);
 
         //START LISTVIEW
 
@@ -79,7 +79,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                String selectedFromList = (String)(customAdapter.getItem(position));
+                String selectedFromList = (String)(selectListAdapter.getItem(position));
                 int pos = overview_list.indexOf(selectedFromList);
 
                 if (!isSelected(pos)){
@@ -89,8 +89,8 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
                     view.setBackgroundColor(getResources().getColor(R.color.white));
                     deselect(pos);
                 }
-                customAdapter.updateSelected(selected);
-                customAdapter.notifyDataSetChanged();
+                selectListAdapter.updateSelected(selected);
+                selectListAdapter.notifyDataSetChanged();
 
             }
         });
@@ -185,9 +185,9 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     }
 
     private void colourSelectedItems(){
-        for (int i = 0; i < customAdapter.getCount(); i++){
+        for (int i = 0; i < selectListAdapter.getCount(); i++){
             View v = getViewByPosition(i,lv);
-            String s = (String) customAdapter.getItem(i);
+            String s = (String) selectListAdapter.getItem(i);
             int index = overview_list.indexOf(s);
             if (selected.contains(index)) {
                 v.setBackgroundColor(getResources().getColor(R.color.gray));
@@ -206,9 +206,9 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
                 String item = overview_list.get(i);
 
                 if (!item.toLowerCase().contains(textToSearch.toLowerCase())) {
-                    customAdapter.addHiddenPosition(i);
+                    selectListAdapter.addHiddenPosition(i);
                 } else {
-                    customAdapter.removeHiddenPosition(i);
+                    selectListAdapter.removeHiddenPosition(i);
                 }
             }
         }
@@ -216,7 +216,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
         ArrayList sortedList = new ArrayList(selected);
         Collections.sort(sortedList);
-        customAdapter.notifyDataSetChanged();
+        selectListAdapter.notifyDataSetChanged();
 
     }
 
@@ -261,13 +261,13 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
 
         // Create a List from String Array elements
-        customAdapter = new CustomAdapter<String>
+        selectListAdapter = new SelectListAdapter<String>
                 (this, overview_list, selected);
 
 
-        // DataBind ListView with items from CustomAdapter
-        lv.setAdapter(customAdapter);
-        customAdapter.notifyDataSetChanged();
+        // DataBind ListView with items from SelectListAdapter
+        lv.setAdapter(selectListAdapter);
+        selectListAdapter.notifyDataSetChanged();
     }
 
 

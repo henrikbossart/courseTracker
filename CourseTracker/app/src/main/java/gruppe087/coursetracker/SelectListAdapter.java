@@ -23,7 +23,7 @@ import static android.R.id.list;
  * Created by petercbu on 14.03.2017.
  */
 
-public class CustomAdapter<E> extends BaseAdapter {
+public class SelectListAdapter<E> extends BaseAdapter {
 
     Activity activity;
     ArrayList<String> listItems;
@@ -32,7 +32,7 @@ public class CustomAdapter<E> extends BaseAdapter {
 
 
 
-    public CustomAdapter(Activity activity, ArrayList<String> listItems, HashSet<Integer> selected){
+    public SelectListAdapter(Activity activity, ArrayList<String> listItems, HashSet<Integer> selected){
         this.activity = activity;
         this.listItems = listItems;
         this.selected = selected;

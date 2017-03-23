@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,25 +24,29 @@ public class LectureAdapter extends DataBaseAdapter {
     }
 
 
-    public void insertEntry(String courseID, String timestamp, String room, String missed){
+    public void insertEntry(String courseID, String date, String time, String room, String missed){
         ContentValues newValues = new ContentValues();
 
         newValues.put("courseID", courseID);
-        newValues.put("timestamp", timestamp);
+        newValues.put("date", date); //YYYY-mm-dd
+        newValues.put("time", time); //HH:mm:ss
         newValues.put("room", room);
         newValues.put("missed", missed);
 
+        try {
+            db.insert("lecture", null, newValues);
+        } catch (SQLiteConstraintException e){
+        }
 
-        db.insert("lecture", null, newValues);
     }
 
-    public int deleteEntry(String courseID, String timestamp){
-        String where = "courseID=? AND timestamp=?";
-        return db.delete("lecture", where, new String[]{courseID,timestamp});
+    public int deleteEntry(String courseID, String time, String date){
+        String where = "courseID=? AND time=? AND date=?";
+        return db.delete("lecture", where, new String[]{courseID, time, date});
     }
 
-    public ArrayList<String> getSingleEntry(String courseID, String timestamp){
-        Cursor cursor = db.query("lecture", null, "courseID=? AND timestamp=?", new String[]{courseID, timestamp}, null, null, null);
+    public ArrayList<String> getSingleEntry(String courseID, String time, String date){
+        Cursor cursor = db.query("lecture", null, "courseID=? AND time=? AND date=?", new String[]{courseID, time, date}, null, null, null);
         if (cursor.getCount() < 1) { // Key does not exist
             cursor.close();
             Toast.makeText(context, "There is no course with this key pair.", Toast.LENGTH_LONG).show();
@@ -52,30 +57,34 @@ public class LectureAdapter extends DataBaseAdapter {
         cursor.moveToFirst();
         ArrayList<String> row = new ArrayList<String>();
         row.add(courseID);
-        row.add(timestamp);
+        row.add(date);
+        row.add(time);
         row.add(cursor.getString(cursor.getColumnIndex("room")));
         row.add(cursor.getString(cursor.getColumnIndex("missed")));
         return row;
     }
 
-    public void updateEntry(String courseID, String timestamp){
+    public void updateEntry(String courseID, String time, String date){
         ContentValues updatedValues = new ContentValues();
 
         updatedValues.put("courseID", courseID);
-        updatedValues.put("timestamp", timestamp);
+        updatedValues.put("time", time);
+        updatedValues.put("date", date);
 
-        String where="courseID=? AND timestamp=?";
-        db.update("lecture", updatedValues, where, new String[]{courseID, timestamp});
+        String where="courseID=? AND time=? AND date=?";
+        db.update("lecture", updatedValues, where, new String[]{courseID, time, date});
 
     }
 
-    public void setMissed(String courseID, String timestamp, Integer missed){
+    public void setMissed(String courseID, String time, String date, Integer missed){
+
         ContentValues updatedValues = new ContentValues();
 
         updatedValues.put("missed", missed);
+        time = time + ":00" ;
 
-        String where = "courseID=? AND timestamp=?";
-        db.update("lecture", updatedValues, where, new String[]{courseID, timestamp});
+        String where = "courseID=? AND time=? AND date=?";
+        db.update("lecture", updatedValues, where, new String[]{courseID, time,date});
 
     }
 

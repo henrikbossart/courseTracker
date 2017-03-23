@@ -1,19 +1,128 @@
 package gruppe087.coursetracker;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
 
 
 public class MissedFragment extends Fragment {
 
+    ListView missedListView;
+    ArrayList<String> listItems;
+    HttpGetRequest getRequest;
+    UserCourseAdapter userCourseAdapter;
+    SharedPreferences settings;
+    public static final String PREFS_NAME = "CTPrefs";
+    ArrayAdapter<String> arrayAdapter;
+    View rootView;
+    LectureAdapter lectureAdapter;
+    Toolbox toolbox;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_missed, container, false);
+        toolbox = new Toolbox();
+        rootView = inflater.inflate(R.layout.fragment_missed, container, false);
+        missedListView = (ListView) rootView.findViewById(R.id.missed_lv);
+        settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        initList();
+        return rootView;
+    }
+
+    private ArrayList<String> createMissedList(){
+        userCourseAdapter = new UserCourseAdapter(getContext());
+        userCourseAdapter.open();
+        ArrayList<String> returnList = new ArrayList<String>();
+        ArrayList<String> courses = userCourseAdapter.getCoursesForUser(settings.getString("username", "default"));
+        TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>();
+        lectureAdapter = new LectureAdapter(getContext());
+        lectureAdapter.open();
+
+        for (String courseID : courses){
+            String result;
+            getRequest = new HttpGetRequest("getTodayLecturesForCourse.php");
+            try {
+                result = getRequest.execute("courseID", courseID).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                result=null;
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                result=null;
+            }
+
+            try {
+                JSONArray jsonArray = new JSONArray(result);
+                for (int i = 0; i < jsonArray.length(); i++) {
+
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    courseID = jsonObject.getString("courseID");
+                    String courseName = jsonObject.getString("courseName");
+                    String time = jsonObject.getString("time");
+                    String room = jsonObject.getString("room");
+                    String date = jsonObject.getString("date");
+                    String row = courseID + "\n" + courseName + "\nTid:\t" + time + "\nRom:\t" + room;
+                    Integer hour = Integer.parseInt(time.split(":")[0]);
+                    lectureAdapter.setMissed(courseID, time, date,  1);
+                    if (lectureMissed(courseID, time, date)){
+                        sortMap.put(hour,row);
+                    }
+                }
+            } catch (JSONException e) {
+            }
+
+        }
+
+        for (Map.Entry<Integer, String> entry : sortMap.entrySet()){
+            returnList.add(entry.getValue());
+        }
+
+        return returnList;
+    }
+
+    public boolean lectureMissed(String courseID, String time, String date){
+        lectureAdapter = new LectureAdapter(getActivity().getApplicationContext());
+        lectureAdapter.open();
+        time = time + ":00";
+        System.out.println(courseID);
+        System.out.println(time);
+        System.out.println(date);
+        ArrayList<String> lecture = lectureAdapter.getSingleEntry(courseID, time, date);
+        int missed = Integer.parseInt(lecture.get(4));
+        Boolean lectureMissed;
+        if (missed < 1){
+            lectureMissed = false;
+        } else {
+            lectureMissed = true;
+        }
+        return lectureMissed;
+    }
+
+    private void initList(){
+
+        listItems = createMissedList();
+        // Initializing getRequest class
+
+        // Create a List from String Array elements
+        arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.listitem, R.id.textview, listItems);
+        // DataBind ListView with items from SelectListAdapter
+        missedListView.setAdapter(arrayAdapter);
+        arrayAdapter.notifyDataSetChanged();
     }
 
     /*    // Tatt fra gamle Activity'en før vi gikk over til fragments
