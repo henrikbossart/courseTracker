@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
- * Created by malfridhendenaaraas on 03.03.2017.
+ * Switching between tab 1 (overview) and tab 2 (missed lectures)
  */
 
 public class PagerAdapter extends FragmentStatePagerAdapter {

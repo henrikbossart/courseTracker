@@ -64,7 +64,6 @@ public class HttpConnector extends AsyncTask<String, Void, JSONArray> {
         // Taking in the params and generating the URL.
         // Varargs format: [varName,varValue, varName, varValue, ...]
         String stringURL = this.generateURL(params);
-        System.out.println(stringURL);
         String result;
         String inputLine;
         System.out.println("params: " + params);
@@ -107,6 +106,7 @@ public class HttpConnector extends AsyncTask<String, Void, JSONArray> {
 
     }
 
+<<<<<<< HEAD:CourseTracker/app/src/main/java/gruppe087/coursetracker/HttpConnector.java
 
     public String getUrl() {
         return url;
@@ -114,6 +114,11 @@ public class HttpConnector extends AsyncTask<String, Void, JSONArray> {
 
     public String generateURL(String[] params){
         String stringURL = url;
+=======
+    private String generateURL(String[] params){
+        String stringURL = "http://138.197.33.171/php/" + filename.trim();
+
+>>>>>>> 27fa58faf11191c496c35f4a64273ae04d981c56:CourseTracker/app/src/main/java/gruppe087/coursetracker/HttpGetRequest.java
         if(params.length == 0){
             return stringURL;
         }
@@ -126,7 +131,11 @@ public class HttpConnector extends AsyncTask<String, Void, JSONArray> {
                 stringURL += params[i];
             }
         }
+<<<<<<< HEAD:CourseTracker/app/src/main/java/gruppe087/coursetracker/HttpConnector.java
         url = stringURL;
+=======
+        System.out.println(stringURL);
+>>>>>>> 27fa58faf11191c496c35f4a64273ae04d981c56:CourseTracker/app/src/main/java/gruppe087/coursetracker/HttpGetRequest.java
         return stringURL;
     }
 

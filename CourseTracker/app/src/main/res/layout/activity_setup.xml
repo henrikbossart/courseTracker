@@ -3,9 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_vertical" >
+    android:gravity="center_vertical"
+    android:weightSum="1">
 
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center"
+        android:text="Welcome to       Course Tracker"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="40dp" />
 
     <Button
         android:id="@+id/buttonSignIN"
