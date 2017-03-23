@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /*
 This file is required to handle all Database operations like (create DB, Insert record,
@@ -89,4 +92,21 @@ public class LoginDataBaseAdapter {
         db.update("LOGIN",updatedValues, where, new String[]{userName});
     }
 
+   /* public ArrayList<String> getSingleEntry(String courseID){
+        Cursor cursor = db.query("COURSE", null, " COURSEID=?", new String[]{courseID}, null, null, null);
+        if(cursor.getCount()<1){ // CourseID does not exist
+            cursor.close();
+            Toast.makeText(context, "There is no course with this course code.",Toast.LENGTH_LONG).show();
+            return null;
+
+        }*/
+
+    public boolean userExists(String username){
+        Cursor cursor = db.query("userdb.db", null, " USERNAME=?", new String[]{username}, null, null, null);
+        if(cursor.getCount()<1) {
+            cursor.close();
+            return false;
+        }
+        return true;
+    }
 }
