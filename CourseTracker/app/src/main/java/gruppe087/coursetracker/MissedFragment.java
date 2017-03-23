@@ -87,8 +87,6 @@ public class MissedFragment extends Fragment {
                     Integer hour = Integer.parseInt(time.split(":")[0]);
                     int timeValueLecture = Toolbox.timeToInt(time);
                     timeValueLecture = timeValueLecture + 90;
-                    System.out.println("Now: " + timeValueNow + " " + thisTime);
-                    System.out.println("Lecture: " + timeValueLecture + " " + time + "\n");
                     if (timeValueNow < timeValueLecture){
                         lectureAdapter.setMissed(courseID, time, date,  0);
                     } else {
@@ -116,7 +114,6 @@ public class MissedFragment extends Fragment {
         lectureAdapter.open();
         time = time + ":00";
         ArrayList<String> lecture = lectureAdapter.getSingleEntry(courseID, time, date);
-        System.out.println(lecture);
         int missed = Integer.parseInt(lecture.get(4));
         Boolean lectureMissed;
         if (missed < 1){
