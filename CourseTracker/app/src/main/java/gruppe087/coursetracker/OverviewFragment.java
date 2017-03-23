@@ -67,9 +67,9 @@ public class OverviewFragment extends Fragment {
     private ArrayList<String> createAgendaList(){
         userCourseAdapter = new UserCourseAdapter(getContext());
         userCourseAdapter.open();
-        //TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>();
         ArrayList<String> returnList = new ArrayList<String>();
         ArrayList<String> courses = userCourseAdapter.getCoursesForUser(settings.getString("username", "default"));
+        TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>();
 
         for (String courseID : courses){
             String result;
@@ -94,9 +94,8 @@ public class OverviewFragment extends Fragment {
                     String time = jsonObject.getString("time");
                     String room = jsonObject.getString("room");
                     String row = courseID + "\n" + courseName + "\nTid:\t" + time + "\nRom:\t" + room;
-                    //Integer hour = Integer.parseInt(time.split(":")[0]);
-                    //sortMap.put(hour,row);
-                    returnList.add(row);
+                    Integer hour = Integer.parseInt(time.split(":")[0]);
+                    sortMap.put(hour,row);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -104,9 +103,9 @@ public class OverviewFragment extends Fragment {
 
         }
 
-        //for (Map.Entry<Integer, String> entry : sortMap.entrySet()){
-        //    returnList.add(entry.getValue());
-        //}
+        for (Map.Entry<Integer, String> entry : sortMap.entrySet()){
+            returnList.add(entry.getValue());
+        }
 
         return returnList;
     }

@@ -22,10 +22,10 @@ public class DataBaseHelper extends SQLiteOpenHelper
 
 	static final String ADD_LECTURE_TABLE =
 			"CREATE TABLE lecture("+
-			"courseid 	TEXT NOT NULL,"+
-			"timestamp  INT NOT NULL," +
-			"room 		TEXT NOT NULL," +
-			"missed		INT NOT NULL" +
+			"courseid 	TEXT NOT NULL, "+
+			"timestamp  INT NOT NULL, " +
+			"room 		TEXT NOT NULL, " +
+			"missed		INT NOT NULL, " +
 			"PRIMARY KEY(courseid, timestamp, room)" +
 			");";
 
@@ -41,7 +41,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
 	public void onCreate(SQLiteDatabase _db) 
 	{
 			_db.execSQL(LoginDataBaseAdapter.DATABASE_CREATE);
-			_db.execSQL(CourseAdapter.ADD_COURSES_TABLE);
+			_db.execSQL(CourseAdapter.ADD_COURSE_TABLE);
 			_db.execSQL(ADD_LECTURE_TABLE);
 			_db.execSQL(ADD_USER_COURSE_TABLE);
 			
@@ -59,7 +59,6 @@ public class DataBaseHelper extends SQLiteOpenHelper
 			// previous versions can be handled by comparing _oldVersion and _newVersion
 			// values.
 			// The simplest case is to drop the old table and create a new one.
-			_db.execSQL(CourseAdapter.ADD_COURSES_TABLE);
 			_db.execSQL("DROP TABLE IF EXISTS " + "TEMPLATE");
 			// Create a new one.
 			onCreate(_db);

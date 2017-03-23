@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class CourseAdapter extends DataBaseAdapter {
 
-    static final String ADD_COURSES_TABLE = "create table "+"COURSE"+
+    static final String ADD_COURSE_TABLE = "create table "+"COURSE"+
             "( " +"COURSEID"+" text primary key not null,"+ "COURSENAME  text,LOCATION text,EXAMDATE text); ";
 
 
