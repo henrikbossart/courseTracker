@@ -8,5 +8,7 @@
     <TextView
         android:id="@+id/text_view_txt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_margin="30px"/>
 </LinearLayout>

@@ -1,6 +1,7 @@
 package gruppe087.coursetracker;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.Activity;
@@ -14,6 +15,7 @@ public class SignupActivity extends AppCompatActivity {
 
     EditText editTextUserName,editTextPassword,editTextConfirmPassword;
     LoginDataBaseAdapter loginDataBaseAdapter;
+    public static final String PREFS_NAME = "CTPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class SignupActivity extends AppCompatActivity {
         editTextUserName=(EditText)findViewById(R.id.editTextUserName);
         editTextPassword=(EditText)findViewById(R.id.editTextPassword);
         editTextConfirmPassword=(EditText)findViewById(R.id.editTextConfirmPassword);
+
+        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
         // When Sign up button pushed
         final Button button = (Button) findViewById(R.id.buttonCreateAccount);
@@ -52,8 +56,13 @@ public class SignupActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("username", userName);
+                    editor.commit();
                     // Save the Data in Database
                     loginDataBaseAdapter.insertEntry(userName, password);
+
+
                     Toast.makeText(getApplicationContext(), "Account Successfully Created ", Toast.LENGTH_LONG).show();
                 }
 

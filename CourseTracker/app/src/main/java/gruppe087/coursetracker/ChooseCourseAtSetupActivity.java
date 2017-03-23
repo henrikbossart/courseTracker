@@ -1,14 +1,13 @@
 package gruppe087.coursetracker;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
@@ -16,19 +15,15 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 
@@ -41,12 +36,31 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     HttpGetRequest getRequest;
     ArrayList<String> overview_list;
     HashSet<Integer> selected = new HashSet<Integer>();
+    LoginDataBaseAdapter loginDataBaseAdapter;
+    CourseAdapter courseAdapter;
+    UserCourseAdapter userCourseAdapter;
+    ArrayList<String> infoList;
+    public static final String PREFS_NAME = "CTPrefs";
+    SharedPreferences settings;
+    String username;
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        settings = getSharedPreferences(PREFS_NAME, 0);
+        username = settings.getString("username", "default");
+
+
+        // get Instance  of Database Adapter
+        courseAdapter = new CourseAdapter(this);
+        courseAdapter = courseAdapter.open();
+        userCourseAdapter = new UserCourseAdapter(this).open();
+
+
         setContentView(R.layout.activity_choose_course_at_setup);
 
         lv = (ListView)findViewById(R.id.initlv);
@@ -66,11 +80,10 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 String selectedFromList = (String)(customAdapter.getItem(position));
-                System.out.println(selectedFromList);
                 int pos = overview_list.indexOf(selectedFromList);
 
                 if (!isSelected(pos)){
-                    view.setBackgroundColor(getResources().getColor(R.color.grey));
+                    view.setBackgroundColor(getResources().getColor(R.color.gray));
                     select(pos);
                 } else {
                     view.setBackgroundColor(getResources().getColor(R.color.white));
@@ -110,10 +123,58 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
         //END LISTVIEW
 
+
+
+
         final Button button = (Button) findViewById(R.id.dummy_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Define action on click
+                ArrayList<String> courseCodes = new ArrayList<String>();
+                for (int i : selected){
+                    String courseCode = overview_list.get(i).split(" ")[0];
+                    getRequest = new HttpGetRequest("getCourse.php ");
+                    String result;
+                    try {
+                        result = getRequest.execute("courseID",courseCode).get();
+                    } catch (InterruptedException e) {
+
+                        e.printStackTrace();
+                        result=null;
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                        result=null;
+                    }
+                    // Parsing the result and turning it into an JSONArray, so that it is simpler to pick
+                    // out the fields that are wanted.
+                    String courseID = null;
+                    try {
+                        JSONArray jsonArray = new JSONArray(result);
+
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                        courseID = jsonObject.getString("courseID");
+                        String courseName = jsonObject.getString("courseName");
+                        String location = jsonObject.getString("location");
+                        String examDate = jsonObject.getString("examDate");
+
+
+
+                        courseAdapter.insertEntry(courseID, courseName, location, examDate);
+                        userCourseAdapter.insertEntry(username, courseID);
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (SQLiteConstraintException e) {
+                        e.printStackTrace();
+                        userCourseAdapter.insertEntry(username, courseID);
+
+                    }
+
+                }
+
+
                 //Intent myIntent = new Intent(RegisterNameActivity.this, TodayOverviewActivity.class);
                 Intent myIntent = new Intent(ChooseCourseAtSetupActivity.this, MainActivity.class);
                 //Optional parameters: myIntent.putExtra("key", value);
@@ -126,11 +187,10 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     private void colourSelectedItems(){
         for (int i = 0; i < customAdapter.getCount(); i++){
             View v = getViewByPosition(i,lv);
-            v.setBackgroundColor(Color.BLUE);
             String s = (String) customAdapter.getItem(i);
             int index = overview_list.indexOf(s);
             if (selected.contains(index)) {
-                v.setBackgroundColor(getResources().getColor(R.color.grey));
+                v.setBackgroundColor(getResources().getColor(R.color.gray));
             } else {
                 v.setBackgroundColor(Color.WHITE);
             }
@@ -156,14 +216,13 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
         ArrayList sortedList = new ArrayList(selected);
         Collections.sort(sortedList);
-        System.out.println(sortedList);
         customAdapter.notifyDataSetChanged();
 
     }
 
     public void initList(){
 
-         listItems = new ArrayList<String>();
+        listItems = new ArrayList<String>();
         // Initializing getRequest class
         getRequest = new HttpGetRequest("addCoursesSetup.php");
         String result;
@@ -180,6 +239,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
         String[] overview = new String[]{};
         overview_list = new ArrayList<String>(Arrays.asList(overview));
+        infoList = new ArrayList<String>();
 
         // Parsing the result and turning it into an JSONArray, so that it is simpler to pick
         // out the fields that are wanted.
@@ -190,7 +250,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
                 String courseID = jsonObject.getString("courseID");
                 String courseName = jsonObject.getString("courseName");
                 //String location = jsonObject.getString("location");
-                //String time = jsonObject.getString("TIME_FORMAT(time, '%H:%i')");
+                //String examDate = jsonObject.getString("examDate");
 
                 overview_list.add(courseID + " " + courseName);
             }
@@ -207,7 +267,6 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
         // DataBind ListView with items from CustomAdapter
         lv.setAdapter(customAdapter);
-        colourSelectedItems();
         customAdapter.notifyDataSetChanged();
     }
 

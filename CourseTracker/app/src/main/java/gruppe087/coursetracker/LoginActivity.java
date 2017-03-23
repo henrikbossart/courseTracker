@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Activity {
 
     LoginDataBaseAdapter loginDataBaseAdapter;
     EditText editTextUserNameToLogin,editTextPasswordToLogin;
@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         loginDataBaseAdapter=new LoginDataBaseAdapter(this);
         loginDataBaseAdapter=loginDataBaseAdapter.open();
 
-        // Get Refferences of Views (OBS SJEKK OM RIKTIG ID)
+        // Get Refferences of Views
         editTextUserNameToLogin=(EditText)findViewById(R.id.editTextUserNameToLogin);
         editTextPasswordToLogin=(EditText)findViewById(R.id.editTextPasswordToLogin);
 
