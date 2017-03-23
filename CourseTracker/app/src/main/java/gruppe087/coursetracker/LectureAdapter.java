@@ -26,6 +26,9 @@ public class LectureAdapter extends DataBaseAdapter {
 
     public void insertEntry(String courseID, String date, String time, String room, String missed){
         ContentValues newValues = new ContentValues();
+        if (getSingleEntry(courseID, time, date) != null){
+            return;
+        }
 
         newValues.put("courseID", courseID);
         newValues.put("date", date); //YYYY-mm-dd
@@ -36,6 +39,7 @@ public class LectureAdapter extends DataBaseAdapter {
         try {
             db.insert("lecture", null, newValues);
         } catch (SQLiteConstraintException e){
+
         }
 
     }

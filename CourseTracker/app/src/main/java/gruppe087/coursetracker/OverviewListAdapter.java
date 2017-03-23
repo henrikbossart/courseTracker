@@ -34,15 +34,12 @@ public class OverviewListAdapter<E> extends ArrayAdapter<E> {
         View view = super.getView(position, convertView, parent);
         TextView tv = (TextView) view.findViewById(R.id.textview);
         String text = (String) tv.getText();
-        System.out.println(text);
         String[] details = text.split("(\n|\t)");
         String courseID = details[0];
         String time = details[3];
         Date dNow = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = dateFormat.format(dNow);
-        System.out.println("TIME: " + time);
-        System.out.println(date);
         if (lectureMissed(courseID, time, date)) {
             tv.setTextColor(getContext().getResources().getColor(R.color.gray));
         } else {
@@ -56,7 +53,6 @@ public class OverviewListAdapter<E> extends ArrayAdapter<E> {
         lectureAdapter.open();
         time = time + ":00";
         ArrayList<String> lecture = lectureAdapter.getSingleEntry(courseID, time, date);
-        System.out.println(lecture);
         int missed = Integer.parseInt(lecture.get(4));
         Boolean lectureMissed;
         if (missed < 1) {
@@ -64,7 +60,6 @@ public class OverviewListAdapter<E> extends ArrayAdapter<E> {
         } else {
             lectureMissed = true;
         }
-        System.out.println(lectureMissed);
         return lectureMissed;
     }
 }
