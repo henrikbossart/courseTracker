@@ -1,9 +1,12 @@
 package gruppe087.coursetracker;
 
 import android.content.Intent;
+<<<<<<< HEAD
+=======
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
+>>>>>>> 27fa58faf11191c496c35f4a64273ae04d981c56
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,8 +25,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+<<<<<<< HEAD
+=======
 import java.util.Collections;
 import java.util.HashSet;
+>>>>>>> 27fa58faf11191c496c35f4a64273ae04d981c56
 import java.util.concurrent.ExecutionException;
 
 
@@ -33,7 +39,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     ArrayList<String> listItems;
     ListView lv;
     EditText et;
-    HttpGetRequest getRequest;
+    HttpConnector httpConnector;
     ArrayList<String> overview_list;
     HashSet<Integer> selected = new HashSet<Integer>();
     LoginDataBaseAdapter loginDataBaseAdapter;
@@ -228,6 +234,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
         String result;
         try {
             result = getRequest.execute().get();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
             result=null;
@@ -243,22 +250,24 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
         // Parsing the result and turning it into an JSONArray, so that it is simpler to pick
         // out the fields that are wanted.
+
         try {
-            JSONArray jsonArray = new JSONArray(result);
-            for (int i = 0; i<jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            for (int i = 0; i<result.length(); i++) {
+                JSONObject jsonObject = result.getJSONObject(i);
                 String courseID = jsonObject.getString("courseID");
                 String courseName = jsonObject.getString("courseName");
+
                 //String location = jsonObject.getString("location");
                 //String examDate = jsonObject.getString("examDate");
 
                 overview_list.add(courseID + " " + courseName);
+
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         // Create a List from String Array elements
         customAdapter = new CustomAdapter<String>
@@ -311,4 +320,3 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     }
 
 }
-

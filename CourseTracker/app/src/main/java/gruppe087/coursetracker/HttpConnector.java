@@ -18,26 +18,55 @@ import java.util.Arrays;
  * Created by henrikbossart on 28.02.2017.
  */
 
-public class HttpGetRequest extends AsyncTask<String, Void, String> {
+public class HttpConnector extends AsyncTask<String, Void, JSONArray> {
 
+    private String baseUrl                          = "http://138.197.33.171/php/";
+    private String url;
     public static final String REQUEST_METHOD   = "GET";
     public static final int READ_TIMEOUT        = 15000;
     public static final int CONNECTION_TIMEOUT  = 15000;
-    private final String filename;
+    public HttpConnector(String command, String... argument){
 
-    public HttpGetRequest(String filename){
-        this.filename = filename;
+        commandChanger(command, argument);
 
     }
 
+    public void commandChanger(String command, String... argument){
+        switch (command){
+            case "getCourse":
+                url = baseUrl + "getCourse.php?courseID=" + argument;
+                break;
+
+            case "getCourses":
+                url = baseUrl + "getCourses.php";
+                break;
+
+            case "addCoursesSetup":
+                url = baseUrl + "addCoursesSetup.php";
+                break;
+
+            case "getLectures":
+                url = baseUrl + "getLectures.php";
+                break;
+
+            case "getLecture":
+                //given that the arguments passed into the method are COURSEID, DATE, and DATE is on
+                // format YYYY-MM-DD
+                url = baseUrl + "getLecture.php?courseID=" + argument + "&" + argument;
+                break;
+
+        }
+    }
+
     @Override
-    protected String doInBackground(String... params) {
+    protected JSONArray doInBackground(String... params) {
 
         // Taking in the params and generating the URL.
         // Varargs format: [varName,varValue, varName, varValue, ...]
         String stringURL = this.generateURL(params);
         String result;
         String inputLine;
+        System.out.println("params: " + params);
 
         try {
 
@@ -73,12 +102,23 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
             result = null;
         }
 
-        return result;
+        return JSONArrayConvert(result);
+
     }
 
+<<<<<<< HEAD:CourseTracker/app/src/main/java/gruppe087/coursetracker/HttpConnector.java
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String generateURL(String[] params){
+        String stringURL = url;
+=======
     private String generateURL(String[] params){
         String stringURL = "http://138.197.33.171/php/" + filename.trim();
 
+>>>>>>> 27fa58faf11191c496c35f4a64273ae04d981c56:CourseTracker/app/src/main/java/gruppe087/coursetracker/HttpGetRequest.java
         if(params.length == 0){
             return stringURL;
         }
@@ -91,12 +131,31 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
                 stringURL += params[i];
             }
         }
+<<<<<<< HEAD:CourseTracker/app/src/main/java/gruppe087/coursetracker/HttpConnector.java
+        url = stringURL;
+=======
         System.out.println(stringURL);
+>>>>>>> 27fa58faf11191c496c35f4a64273ae04d981c56:CourseTracker/app/src/main/java/gruppe087/coursetracker/HttpGetRequest.java
         return stringURL;
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(JSONArray result) {
+
         super.onPostExecute(result);
+        this.cancel(true);
     }
+
+    public JSONArray JSONArrayConvert(String input) {
+
+        try {
+            JSONArray jsonArray = new JSONArray(input);
+            return jsonArray;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
