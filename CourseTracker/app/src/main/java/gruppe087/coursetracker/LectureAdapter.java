@@ -69,4 +69,14 @@ public class LectureAdapter extends DataBaseAdapter {
 
     }
 
+    public void setMissed(String courseID, String timestamp, Integer missed){
+        ContentValues updatedValues = new ContentValues();
+
+        updatedValues.put("missed", missed);
+
+        String where = "courseID=? AND timestamp=?";
+        db.update("lecture", updatedValues, where, new String[]{courseID, timestamp});
+
+    }
+
 }

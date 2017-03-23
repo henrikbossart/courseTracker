@@ -49,15 +49,7 @@ public class OverviewFragment extends Fragment {
         initList();
         return rootView;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
-
-
-    }
+    
 
     private ArrayList<String> createAgendaList(){
         userCourseAdapter = new UserCourseAdapter(getContext());
