@@ -95,6 +95,8 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
         return stringURL;
     }
 
+
+
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);

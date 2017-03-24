@@ -1,11 +1,14 @@
 package gruppe087.coursetracker;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -53,7 +56,6 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
         settings = getSharedPreferences(PREFS_NAME, 0);
         username = settings.getString("username", "default");
-
 
         // get Instance  of Database Adapter
         courseAdapter = new CourseAdapter(this);
