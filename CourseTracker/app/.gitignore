@@ -1,4 +1,3 @@
-
 CourseTracker/projectFilesBackup/*
 Exploring/*
 CourseTracker/*.iml
@@ -12,10 +11,7 @@ CourseTracker/gradle/*
 CourseTracker/app/build/*
 CourseTracker/.gradle/*
 CourseTracker/.idea/*
-CourseTracker/.idea/
-CourseTracker/.idea/misc.xml
 README.md
 LICENSE
 .DS_Store
 .idea/*
-Exploring/*
