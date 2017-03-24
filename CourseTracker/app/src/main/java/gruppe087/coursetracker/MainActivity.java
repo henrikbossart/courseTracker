@@ -1,7 +1,11 @@
 package gruppe087.coursetracker;
 
+<<<<<<< HEAD
 import android.app.NotificationManager;
 import android.content.Context;
+=======
+import android.content.Intent;
+>>>>>>> e7e879aee740dbe4b36d69e475da740560caa924
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -60,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         final PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(Toolbox.fragment);
+        Toolbox.fragment = 0;
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

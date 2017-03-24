@@ -17,4 +17,12 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_signup">SignupActivity</string>
     <string name="tab">\u0009</string>
+    <string name="info"><ul><li>"Side 10 - 50.</li>
+<li>Powerpoint.</li>
+<li>www.itslearning.no</li>
+<li>Curabitur tortor velit, bibendum ac semper eu, interdum ut erat. </li>
+<li>Cras semper pulvinar urna, quis dignissim purus tristique et.</li>
+<li>Curabitur non sapien aliquam, dapibus sem eu, tincidunt ex.</li>
+<li>Fusce quis sodales nunc. </li></ul></string>
 </resources>
+

@@ -10,7 +10,6 @@ import android.util.Log;
 This file will be use to create a new DB, when no database exists in disk and the helper
 class will do the needful for us. Also this class will be help us to upgrade
 the version of the DB if required.
-
  */
 
 public class DataBaseHelper extends SQLiteOpenHelper
@@ -22,11 +21,12 @@ public class DataBaseHelper extends SQLiteOpenHelper
 
 	static final String ADD_LECTURE_TABLE =
 			"CREATE TABLE lecture("+
-			"courseid 	TEXT NOT NULL, "+
-			"timestamp  INT NOT NULL, " +
+			"courseid 	TEXT NOT NULL, " +
+			"time  		TEXT NOT NULL, " +
+			"date		TEXT NOT NULL, " +
 			"room 		TEXT NOT NULL, " +
-			"missed		INT NOT NULL, " +
-			"PRIMARY KEY(courseid, timestamp, room)" +
+			"missed		INT  NOT NULL, " +
+			"PRIMARY KEY(courseid, time, date, room)" +
 			");";
 
 	static final String ADD_USER_COURSE_TABLE =

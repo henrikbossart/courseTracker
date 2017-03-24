@@ -36,9 +36,9 @@ public class OverviewFragment extends Fragment {
     UserCourseAdapter userCourseAdapter;
     SharedPreferences settings;
     public static final String PREFS_NAME = "CTPrefs";
-    ArrayAdapter<String> arrayAdapter;
-    EditText text;
+    OverviewListAdapter<String> arrayAdapter;
     View rootView;
+    LectureAdapter lectureAdapter;
 
 
     @Override
@@ -46,18 +46,11 @@ public class OverviewFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_overview, container, false);
         agendaListView = (ListView) rootView.findViewById(R.id.agenda_lv);
         settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        lectureAdapter = new LectureAdapter(getContext());
         initList();
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
-
-
-    }
 
     private ArrayList<String> createAgendaList(){
         userCourseAdapter = new UserCourseAdapter(getContext());
@@ -95,6 +88,10 @@ public class OverviewFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            addLecturesToSQLite(courseID);
+
+
+
 
         }
 
@@ -105,6 +102,36 @@ public class OverviewFragment extends Fragment {
         return returnList;
     }
 
+    private void addLecturesToSQLite(String courseID){
+        String result;
+        getRequest = new HttpGetRequest("getLecturesForCourse.php");
+        try {
+            result = getRequest.execute("courseID", courseID).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            result=null;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            result=null;
+        }
+        lectureAdapter.open();
+        try {
+            JSONArray jsonArray = new JSONArray(result);
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                courseID = jsonObject.getString("courseID");
+                String date = jsonObject.getString("date");
+                String time = jsonObject.getString("time");
+                String room = jsonObject.getString("room");
+                lectureAdapter.insertEntry(courseID, date, time, room, "0");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        lectureAdapter.close();
+    }
+
 
     private void initList(){
 
@@ -112,8 +139,8 @@ public class OverviewFragment extends Fragment {
         // Initializing getRequest class
 
         // Create a List from String Array elements
-        arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.listitem, R.id.textview, listItems);
-        // DataBind ListView with items from CustomAdapter
+        arrayAdapter = new OverviewListAdapter<String>(getActivity().getApplicationContext(), R.layout.listitem, R.id.textview, listItems);
+        // DataBind ListView with items from SelectListAdapter
         agendaListView.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
     }
