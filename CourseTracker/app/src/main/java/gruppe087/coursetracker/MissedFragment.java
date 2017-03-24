@@ -1,6 +1,7 @@
 package gruppe087.coursetracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -42,6 +44,14 @@ public class MissedFragment extends Fragment {
         missedListView = (ListView) rootView.findViewById(R.id.missed_lv);
         settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
         initList();
+        missedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent myIntent = new Intent(getActivity(), MissedLectureCurriculum.class);
+                //Optional parameters: myIntent.putExtra("key", value);
+                getActivity().startActivity(myIntent);
+            }
+        });
         return rootView;
     }
 

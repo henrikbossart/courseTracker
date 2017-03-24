@@ -24,6 +24,7 @@ import static android.R.attr.resource;
 public class OverviewListAdapter<E> extends ArrayAdapter<E> {
     LectureAdapter lectureAdapter;
 
+
     public OverviewListAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull List<E> objects) {
         super(context, resource, textViewResourceId, objects);
     }
@@ -39,27 +40,15 @@ public class OverviewListAdapter<E> extends ArrayAdapter<E> {
         String time = details[3];
         Date dNow = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         String date = dateFormat.format(dNow);
-        if (lectureMissed(courseID, time, date)) {
+        int timeNow = Toolbox.timeToInt(timeFormat.format(dNow));
+        int lectureTime = Toolbox.timeToInt(time);
+        if (lectureTime + 90 < timeNow) {
             tv.setTextColor(getContext().getResources().getColor(R.color.gray));
         } else {
             tv.setTextColor(getContext().getResources().getColor(R.color.colorPrimaryDark));
         }
         return view;
-    }
-
-    public boolean lectureMissed(String courseID, String time, String date) {
-        lectureAdapter = new LectureAdapter(getContext());
-        lectureAdapter.open();
-        time = time + ":00";
-        ArrayList<String> lecture = lectureAdapter.getSingleEntry(courseID, time, date);
-        int missed = Integer.parseInt(lecture.get(4));
-        Boolean lectureMissed;
-        if (missed < 1) {
-            lectureMissed = false;
-        } else {
-            lectureMissed = true;
-        }
-        return lectureMissed;
     }
 }
