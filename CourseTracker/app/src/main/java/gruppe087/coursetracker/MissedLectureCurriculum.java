@@ -19,6 +19,8 @@ public class MissedLectureCurriculum extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MissedLectureCurriculum.this, MainActivity.class);
+                Toolbox.fragment = 1;
+                //myIntent.putExtra("fragment", 1);
                 //Optional parameters: myIntent.putExtra("key", value);
                 MissedLectureCurriculum.this.startActivity(myIntent);
             }
