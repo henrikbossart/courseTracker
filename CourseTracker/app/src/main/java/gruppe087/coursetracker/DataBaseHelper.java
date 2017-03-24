@@ -10,7 +10,6 @@ import android.util.Log;
 This file will be use to create a new DB, when no database exists in disk and the helper
 class will do the needful for us. Also this class will be help us to upgrade
 the version of the DB if required.
-
  */
 
 public class DataBaseHelper extends SQLiteOpenHelper
