@@ -113,13 +113,16 @@ public class MissedFragment extends Fragment {
                                 .setMessage("Did you attend the class in " + courseName + "?")
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        // do nothing
+                                        // set the lecture to attended
+                                        lectureAdapter.setMissed(courseID2, time, date, 0);
+                                        System.out.println(lectureAdapter.getSingleEntry(courseID2, time, date));
                                     }
                                 })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // set the lecture to be missed
                                         lectureAdapter.setMissed(courseID2, time,date, 1);
+                                        System.out.println(lectureAdapter.getSingleEntry(courseID2, time, date));
                                     }
                                 })
                                 .show();

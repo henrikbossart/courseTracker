@@ -51,12 +51,12 @@ public class LectureAdapter extends DataBaseAdapter {
 
     public ArrayList<String> getSingleEntry(String courseID, String time, String date){
         Cursor cursor = db.query("lecture", null, "courseID=? AND time=? AND date=?", new String[]{courseID, time, date}, null, null, null);
+        System.out.println(cursor);
         if (cursor.getCount() < 1) { // Key does not exist
             cursor.close();
             Toast.makeText(context, "There is no course with this key pair.", Toast.LENGTH_LONG).show();
             return null;
         }
-
 
         cursor.moveToFirst();
         ArrayList<String> row = new ArrayList<String>();
