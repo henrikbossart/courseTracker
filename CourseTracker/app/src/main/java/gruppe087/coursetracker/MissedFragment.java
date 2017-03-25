@@ -99,7 +99,7 @@ public class MissedFragment extends Fragment {
                     String row = courseID + "\n" + courseName + "\nTid:\t" + time + "\nRom:\t" + room;
                     Integer hour = Integer.parseInt(time.split(":")[0]);
                     int timeValueLecture = Toolbox.timeToInt(time);
-                    timeValueLecture = timeValueLecture + 90;
+                    //timeValueLecture = timeValueLecture + 90;
                     if (timeValueNow > timeValueLecture){
                         //lectureAdapter.setMissed(courseID, time, date,  0);
 
@@ -119,10 +119,9 @@ public class MissedFragment extends Fragment {
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // set the lecture to be missed
-                                        lectureAdapter.setMissed(courseID2, time,date, 0);
+                                        lectureAdapter.setMissed(courseID2, time,date, 1);
                                     }
                                 })
-                                .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
                     } //else {
                         //lectureAdapter.setMissed(courseID, time, date, 1);
