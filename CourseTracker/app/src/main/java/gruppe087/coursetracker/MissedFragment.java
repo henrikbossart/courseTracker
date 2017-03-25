@@ -1,11 +1,13 @@
 package gruppe087.coursetracker;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,19 +91,42 @@ public class MissedFragment extends Fragment {
 
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     courseID = jsonObject.getString("courseID");
-                    String courseName = jsonObject.getString("courseName");
-                    String time = jsonObject.getString("time");
-                    String room = jsonObject.getString("room");
-                    String date = jsonObject.getString("date");
+                    final String courseID2 = courseID;
+                    final String courseName = jsonObject.getString("courseName");
+                    final String time = jsonObject.getString("time");
+                    final String room = jsonObject.getString("room");
+                    final String date = jsonObject.getString("date");
                     String row = courseID + "\n" + courseName + "\nTid:\t" + time + "\nRom:\t" + room;
                     Integer hour = Integer.parseInt(time.split(":")[0]);
                     int timeValueLecture = Toolbox.timeToInt(time);
                     timeValueLecture = timeValueLecture + 90;
-                    if (timeValueNow < timeValueLecture){
-                        lectureAdapter.setMissed(courseID, time, date,  0);
-                    } else {
-                        lectureAdapter.setMissed(courseID, time, date, 1);
-                    }
+                    if (timeValueNow > timeValueLecture){
+                        //lectureAdapter.setMissed(courseID, time, date,  0);
+
+
+                        // Create notification if the
+                        NotificationBuilder notification = new NotificationBuilder(getActivity());
+                        notification.Build(getActivity(), "Attendance", "Did you attend the class in " + courseName + "?");
+
+                        AlertDialog alert = new AlertDialog.Builder(getActivity())
+                                .setTitle("Attendance")
+                                .setMessage("Did you attend the class in " + courseName + "?")
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do nothing
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // set the lecture to be missed
+                                        lectureAdapter.setMissed(courseID2, time,date, 0);
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    } //else {
+                        //lectureAdapter.setMissed(courseID, time, date, 1);
+                    //}
 
                     if (lectureMissed(courseID, time, date)){
                         sortMap.put(hour,row);
