@@ -52,26 +52,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     String username;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void sendNotification() {
 
-        Intent intent = new Intent(this, NotificationReceiverActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int)
-            System.currentTimeMillis(), intent, 0);
-
-        Notification notification = new Notification.Builder(this)
-                .setContentTitle("Course Tracker")
-                .setContentText("Did you attend today lecture in *****?")
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentIntent(pendingIntent)
-                .build();
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
-        notificationManager.notify(0, notification);
-
-    }
 
 
     @Override
@@ -156,7 +137,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Define action on click
-                sendNotification();
+
                 ArrayList<String> courseCodes = new ArrayList<String>();
                 for (int i : selected){
                     String courseCode = overview_list.get(i).split(" ")[0];

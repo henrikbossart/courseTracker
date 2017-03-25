@@ -1,11 +1,9 @@
 package gruppe087.coursetracker;
 
-<<<<<<< HEAD
 import android.app.NotificationManager;
 import android.content.Context;
-=======
+
 import android.content.Intent;
->>>>>>> e7e879aee740dbe4b36d69e475da740560caa924
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -46,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public static final String PREFS_NAME = "CTPrefs";
     private GoogleApiClient client;
+    NotificationBuilder nBuilder = new NotificationBuilder(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        nBuilder.Build(this, "Test", "This is a test notification.");
+        AlertBuilder alert = new AlertBuilder();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
