@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 
 public abstract class Toolbox {
 
+    public static int fragment = 0;
+
 
     public Long SQLdateAndTimeToTimestamp(String date, String time){
         Timestamp timestamp = Timestamp.valueOf(date + " " + time + ":00.000000000");
