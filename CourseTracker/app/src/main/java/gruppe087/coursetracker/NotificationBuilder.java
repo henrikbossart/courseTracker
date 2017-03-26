@@ -34,7 +34,7 @@ public class NotificationBuilder {
         Notification notification = new Notification.Builder(context)
                 .setContentTitle("Course Tracker")
                 .setContentText("Did you attend today lecture in *****?")
-                .setSmallIcon(R.drawable.notification_icon)
+                .setSmallIcon(R.drawable.ic_checklist)
                 .setContentIntent(pendingIntent)
                 .build();
 

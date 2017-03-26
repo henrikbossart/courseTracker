@@ -69,14 +69,14 @@ public class LoginActivity extends Activity {
     public void createNotification(View view) {
         // Prepare intent which is triggered if the
         // notification is selected
-        Intent intent = new Intent(this, NotificationReceiverActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
 
         // Build notification
         // Actions are just fake
         Notification noti = new Notification.Builder(this)
                 .setContentTitle("New mail from " + "test@gmail.com")
-                .setContentText("Subject").setSmallIcon(R.drawable.icon)
+                .setContentText("Subject").setSmallIcon(R.drawable.ic_checklist)
                 .setContentIntent(pIntent)
                 .addAction(R.drawable.icon, "Call", pIntent)
                 .addAction(R.drawable.icon, "More", pIntent)
