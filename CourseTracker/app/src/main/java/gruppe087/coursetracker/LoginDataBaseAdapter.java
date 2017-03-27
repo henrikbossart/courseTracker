@@ -95,7 +95,7 @@ public class LoginDataBaseAdapter extends DataBaseAdapter {
         }*/
 
     public boolean userExists(String username){
-        Cursor cursor = db.query("userdb.db", null, " USERNAME=?", new String[]{username}, null, null, null);
+        Cursor cursor = db.query("LOGIN", null, " USERNAME=?", new String[]{username}, null, null, null);
         if(cursor.getCount()<1) {
             cursor.close();
             return false;

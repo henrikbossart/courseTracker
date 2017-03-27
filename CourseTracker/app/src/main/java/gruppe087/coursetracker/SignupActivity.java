@@ -59,6 +59,7 @@ public class SignupActivity extends AppCompatActivity {
                 //TODO: Implement Toast when user already exists!
 
                 LoginDataBaseAdapter userDb = new LoginDataBaseAdapter(getApplicationContext());
+                userDb.open();
                 if(userDb.userExists(userName)){
                     Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_LONG).show();
                     return;
