@@ -78,6 +78,7 @@ public class LectureAdapter extends DataBaseAdapter {
         row.add(time);
         row.add(cursor.getString(cursor.getColumnIndex("room")));
         row.add(cursor.getString(cursor.getColumnIndex("missed")));
+        row.add(cursor.getString(cursor.getColumnIndex("asked")));
         return row;
     }
 
@@ -91,6 +92,13 @@ public class LectureAdapter extends DataBaseAdapter {
         String where="courseID=? AND time=? AND date=?";
         db.update("lecture", updatedValues, where, new String[]{courseID, time, date});
 
+    }
+
+    public boolean isAsked(String courseID, String time, String date){
+        ArrayList<String> row = getSingleEntry(courseID, time, date);
+        String result = row.get(5);
+        System.out.println("BOOLEAN: " + Boolean.valueOf(result));
+        return Boolean.valueOf(result);
     }
 
     public void setMissed(String courseID, String time, String date, Integer missed){
