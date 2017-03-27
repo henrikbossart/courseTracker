@@ -124,7 +124,7 @@ public class OverviewFragment extends Fragment {
                 String date = jsonObject.getString("date");
                 String time = jsonObject.getString("time");
                 String room = jsonObject.getString("room");
-                lectureAdapter.insertEntry(courseID, date, time, room, "0");
+                lectureAdapter.insertEntry(courseID, date, time, room, "0", "0");
             }
         } catch (JSONException e) {
             e.printStackTrace();

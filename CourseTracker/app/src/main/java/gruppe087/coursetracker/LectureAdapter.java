@@ -14,6 +14,18 @@ import java.util.ArrayList;
  */
 
 public class LectureAdapter extends DataBaseAdapter {
+
+    static final String ADD_LECTURE_TABLE =
+            "CREATE TABLE lecture("+
+                    "courseid 	TEXT NOT NULL, " +
+                    "time  		TEXT NOT NULL, " +
+                    "date		TEXT NOT NULL, " +
+                    "room 		TEXT NOT NULL, " +
+                    "missed		INT  NOT NULL, " +
+                    "asked      INT  NOT NULL, " +
+                    "PRIMARY KEY(courseid, time, date, room)" +
+                    ");";
+
     public LectureAdapter(Context _context) {
         super(_context);
     }
@@ -24,7 +36,7 @@ public class LectureAdapter extends DataBaseAdapter {
     }
 
 
-    public void insertEntry(String courseID, String date, String time, String room, String missed){
+    public void insertEntry(String courseID, String date, String time, String room, String missed, String asked){
         ContentValues newValues = new ContentValues();
         if (getSingleEntry(courseID, time, date) != null){
             return;
@@ -35,6 +47,7 @@ public class LectureAdapter extends DataBaseAdapter {
         newValues.put("time", time); //HH:mm:ss
         newValues.put("room", room);
         newValues.put("missed", missed);
+        newValues.put("asked", asked);
 
         try {
             db.insert("lecture", null, newValues);
@@ -90,6 +103,17 @@ public class LectureAdapter extends DataBaseAdapter {
         String where = "courseID=? AND time=? AND date=?";
         db.update("lecture", updatedValues, where, new String[]{courseID, time,date});
         System.out.println(getSingleEntry(courseID, time, date));
+
+    }
+
+    public void setAsked(String courseID, String time, String date, Integer asked){
+        ContentValues updatedValues = new ContentValues();
+
+        updatedValues.put("asked", asked);
+        time = time + ":00";
+
+        String where = "courseID=? AND time=? AND date=?";
+        db.update("lecture", updatedValues, where, new String[]{courseID, time,date});
 
     }
 

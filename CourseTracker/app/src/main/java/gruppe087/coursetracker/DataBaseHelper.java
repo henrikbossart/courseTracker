@@ -19,15 +19,6 @@ public class DataBaseHelper extends SQLiteOpenHelper
 	           super(context, name, factory, version);
 	}
 
-	static final String ADD_LECTURE_TABLE =
-			"CREATE TABLE lecture("+
-			"courseid 	TEXT NOT NULL, " +
-			"time  		TEXT NOT NULL, " +
-			"date		TEXT NOT NULL, " +
-			"room 		TEXT NOT NULL, " +
-			"missed		INT  NOT NULL, " +
-			"PRIMARY KEY(courseid, time, date, room)" +
-			");";
 
 	static final String ADD_USER_COURSE_TABLE =
 			"CREATE TABLE usercourse("+
@@ -42,7 +33,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
 	{
 			_db.execSQL(LoginDataBaseAdapter.DATABASE_CREATE);
 			_db.execSQL(CourseAdapter.ADD_COURSE_TABLE);
-			_db.execSQL(ADD_LECTURE_TABLE);
+			_db.execSQL(LectureAdapter.ADD_LECTURE_TABLE);
 			_db.execSQL(ADD_USER_COURSE_TABLE);
 			
 	}
