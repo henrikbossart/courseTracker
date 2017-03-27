@@ -19,6 +19,7 @@ public class Service extends android.app.Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //TODO: enter work to be done by service
+        
         return super.onStartCommand(intent, flags, startId);
     }
 }
