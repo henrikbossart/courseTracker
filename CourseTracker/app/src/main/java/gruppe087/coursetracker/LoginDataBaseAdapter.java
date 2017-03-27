@@ -5,31 +5,27 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /*
 This file is required to handle all Database operations like (create DB, Insert record,
 update record, Delete record, Close DB, and Cursor related stuffs.
  */
 
-public class LoginDataBaseAdapter {
+public class LoginDataBaseAdapter extends DataBaseAdapter {
 
-    protected static final String DATABASE_NAME = "userdb.db";
-    protected static final int DATABASE_VERSION = 1;
-    public static final int NAME_COLUMN = 1;
     // TODO: Create public field for each column in your table.
     // SQL Statement to create a new database.
     static final String DATABASE_CREATE = "create table "+"LOGIN"+
             "( USERNAME  text primary key not null,PASSWORD text); ";
     // Variable to hold the database instance
-    public  SQLiteDatabase db;
     // Context of the application using the database.
-    private final Context context;
     // Database open/upgrade helper
-    private DataBaseHelper dbHelper;
     public LoginDataBaseAdapter(Context _context)
     {
-        context = _context;
-        dbHelper = new DataBaseHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(_context);
     }
     public  LoginDataBaseAdapter open() throws SQLException
     {
@@ -89,4 +85,21 @@ public class LoginDataBaseAdapter {
         db.update("LOGIN",updatedValues, where, new String[]{userName});
     }
 
+   /* public ArrayList<String> getSingleEntry(String courseID){
+        Cursor cursor = db.query("COURSE", null, " COURSEID=?", new String[]{courseID}, null, null, null);
+        if(cursor.getCount()<1){ // CourseID does not exist
+            cursor.close();
+            Toast.makeText(context, "There is no course with this course code.",Toast.LENGTH_LONG).show();
+            return null;
+
+        }*/
+
+    public boolean userExists(String username){
+        Cursor cursor = db.query("LOGIN", null, " USERNAME=?", new String[]{username}, null, null, null);
+        if(cursor.getCount()<1) {
+            cursor.close();
+            return false;
+        }
+        return true;
+    }
 }

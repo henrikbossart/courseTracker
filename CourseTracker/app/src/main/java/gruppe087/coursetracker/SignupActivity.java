@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.Activity;
@@ -57,7 +58,14 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password does not match", Toast.LENGTH_LONG).show();
                     return;
                 }
-                //TODO: Implement Toast when username already exists!
+                //TODO: Implement Toast when user already exists!
+
+                LoginDataBaseAdapter userDb = new LoginDataBaseAdapter(getApplicationContext());
+                userDb.open();
+                if(userDb.userExists(userName)){
+                    Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 else
                 {
                     SharedPreferences.Editor editor = settings.edit();
