@@ -64,6 +64,10 @@ public class LectureAdapter extends DataBaseAdapter {
 
     public ArrayList<String> getSingleEntry(String courseID, String time, String date){
         Cursor cursor = db.query("lecture", null, "courseID=? AND time=? AND date=?", new String[]{courseID, time, date}, null, null, null);
+        System.out.println(time);
+        System.out.println(courseID);
+        System.out.println();
+
         System.out.println(cursor);
         if (cursor.getCount() < 1) { // Key does not exist
             cursor.close();
@@ -95,6 +99,7 @@ public class LectureAdapter extends DataBaseAdapter {
     }
 
     public boolean isAsked(String courseID, String time, String date){
+        time = time + ":00";
         ArrayList<String> row = getSingleEntry(courseID, time, date);
         String result = row.get(5);
         System.out.println("BOOLEAN: " + Boolean.valueOf(result));

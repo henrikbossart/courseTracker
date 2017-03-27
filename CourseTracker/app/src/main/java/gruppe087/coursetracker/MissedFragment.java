@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,35 +103,37 @@ public class MissedFragment extends Fragment {
                     Integer hour = Integer.parseInt(time.split(":")[0]);
                     int timeValueLecture = Toolbox.timeToInt(time);
                     //timeValueLecture = timeValueLecture + 90;
-                    if (timeValueNow > timeValueLecture){
+                    System.out.println(lectureAdapter.isAsked(courseID, time, date));
+                    if (timeValueNow > timeValueLecture && !lectureAdapter.isAsked(courseID, time, date)){
                         //lectureAdapter.setMissed(courseID, time, date,  0);
 
-
-                        // Create notification if window is active
+                        // Create notification if window is not active
                         if (this.active = false) {
                             NotificationBuilder notification = new NotificationBuilder(getActivity());
-                            notification.Build(getActivity(), "Attendance", "Did you attend the class in " + courseName + "?");
+                            notification.Build(getActivity(), "Attendance", "Did you attend the class in " + courseID + "?");
                         }
 
-                        AlertDialog alert = new AlertDialog.Builder(getActivity())
+                        new AlertDialog.Builder(getActivity())
                                 .setTitle("Attendance")
-                                .setMessage("Did you attend the class in " + courseID + "?")
+                                .setMessage("Did you attend the class in " + courseID + "\nat" + time + "?")
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // set the lecture to attended
                                         lectureAdapter.setMissed(courseID2, time, date, 0);
+                                        lectureAdapter.setAsked(courseID2, time, date, 1);
+                                        arrayAdapter.notifyDataSetChanged();
                                     }
                                 })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // set the lecture to be missed
                                         lectureAdapter.setMissed(courseID2, time,date, 1);
+                                        lectureAdapter.setAsked(courseID2, time, date, 1);
+                                        arrayAdapter.notifyDataSetChanged();
                                     }
                                 })
                                 .show();
-                    } //else {
-                        //lectureAdapter.setMissed(courseID, time, date, 1);
-                    //}
+                    }
 
                     if (lectureMissed(courseID, time, date)){
                         sortMap.put(hour,row);
@@ -199,6 +202,7 @@ public class MissedFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        arrayAdapter.notifyDataSetChanged();
 
         active = true;
     }
