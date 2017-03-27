@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // starting a service within this class to make the app run in the background
-        startService(new Intent(this, Service.class));
-
         //Setting app to active
         active = true;
 
