@@ -23,6 +23,9 @@ public class MissedLectureCurriculum extends AppCompatActivity {
                 //myIntent.putExtra("fragment", 1);
                 //Optional parameters: myIntent.putExtra("key", value);
                 MissedLectureCurriculum.this.startActivity(myIntent);
+
+                //Transition
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 

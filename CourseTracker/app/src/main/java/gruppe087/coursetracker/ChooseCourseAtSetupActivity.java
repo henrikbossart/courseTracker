@@ -187,6 +187,9 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(ChooseCourseAtSetupActivity.this, MainActivity.class);
                 //Optional parameters: myIntent.putExtra("key", value);
                 ChooseCourseAtSetupActivity.this.startActivity(myIntent);
+
+                // Transition
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 

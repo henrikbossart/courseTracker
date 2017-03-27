@@ -28,6 +28,9 @@ public class SetupActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(SetupActivity.this, LoginActivity.class);
                 //Optional parameters: myIntent.putExtra("key", value);
                 SetupActivity.this.startActivity(myIntent);
+
+                // Transition
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -39,6 +42,9 @@ public class SetupActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(SetupActivity.this, SignupActivity.class);
                 //Optional parameters: myIntent.putExtra("key", value);
                 SetupActivity.this.startActivity(myIntent);
+
+                // Transition
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -46,3 +52,28 @@ public class SetupActivity extends AppCompatActivity {
 
 
 }
+/*
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.splashscreen);
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+
+                     // Create an intent that will start the main activity.
+                Intent mainIntent = new Intent(SplashScreen.this,
+                        ConnectedActivity.class);
+                mainIntent.putExtra("id", "1");
+
+                //SplashScreen.this.startActivity(mainIntent);
+                startActivity(mainIntent);
+                     // Finish splash activity so user cant go back to it.
+                SplashScreen.this.finish();
+
+                     /* Apply our splash exit (fade out) and main
+                        entry (fade in) animation transitions.
+                overridePendingTransition(R.anim.mainfadein,R.anim.splashfadeout);
+            }
+        }, SPLASH_DISPLAY_TIME);
+    }
+    */

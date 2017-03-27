@@ -39,6 +39,7 @@ public class MissedFragment extends Fragment {
     MissedListAdapter<String> arrayAdapter;
     View rootView;
     LectureAdapter lectureAdapter;
+    private Boolean active;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class MissedFragment extends Fragment {
         missedListView = (ListView) rootView.findViewById(R.id.missed_lv);
         settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
         initList();
+        active = true;
         missedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -104,25 +106,25 @@ public class MissedFragment extends Fragment {
                         //lectureAdapter.setMissed(courseID, time, date,  0);
 
 
-                        // Create notification if the
-                        NotificationBuilder notification = new NotificationBuilder(getActivity());
-                        notification.Build(getActivity(), "Attendance", "Did you attend the class in " + courseName + "?");
+                        // Create notification if window is active
+                        if (this.active = false) {
+                            NotificationBuilder notification = new NotificationBuilder(getActivity());
+                            notification.Build(getActivity(), "Attendance", "Did you attend the class in " + courseName + "?");
+                        }
 
                         AlertDialog alert = new AlertDialog.Builder(getActivity())
                                 .setTitle("Attendance")
-                                .setMessage("Did you attend the class in " + courseName + "?")
+                                .setMessage("Did you attend the class in " + courseID + "?")
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // set the lecture to attended
                                         lectureAdapter.setMissed(courseID2, time, date, 0);
-                                        System.out.println(lectureAdapter.getSingleEntry(courseID2, time, date));
                                     }
                                 })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // set the lecture to be missed
                                         lectureAdapter.setMissed(courseID2, time,date, 1);
-                                        System.out.println(lectureAdapter.getSingleEntry(courseID2, time, date));
                                     }
                                 })
                                 .show();
@@ -173,4 +175,31 @@ public class MissedFragment extends Fragment {
         arrayAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        active = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        active = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        active = false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        active = true;
+    }
 }

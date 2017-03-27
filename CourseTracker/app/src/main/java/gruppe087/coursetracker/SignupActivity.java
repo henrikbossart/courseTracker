@@ -74,6 +74,10 @@ public class SignupActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(SignupActivity.this, ChooseCourseAtSetupActivity.class);
                 //Optional parameters: myIntent.putExtra("key", value);
                 SignupActivity.this.startActivity(myIntent);
+
+                // create fading animation
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
             }
         });
     }

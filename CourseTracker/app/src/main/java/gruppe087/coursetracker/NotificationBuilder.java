@@ -32,8 +32,8 @@ public class NotificationBuilder {
                 System.currentTimeMillis(), intent.putExtra("fromnotification", true), PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notification = new Notification.Builder(context)
-                .setContentTitle("Course Tracker")
-                .setContentText("Did you attend today lecture in *****?")
+                .setContentTitle(title)
+                .setContentText(message)
                 .setSmallIcon(R.drawable.ic_checklist)
                 .setContentIntent(pendingIntent)
                 .build();

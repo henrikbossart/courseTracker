@@ -89,6 +89,7 @@ public class LectureAdapter extends DataBaseAdapter {
 
         String where = "courseID=? AND time=? AND date=?";
         db.update("lecture", updatedValues, where, new String[]{courseID, time,date});
+        System.out.println(getSingleEntry(courseID, time, date));
 
     }
 

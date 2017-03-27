@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public static final String PREFS_NAME = "CTPrefs";
     private GoogleApiClient client;
-    NotificationBuilder nBuilder = new NotificationBuilder(this);
+    private Boolean active;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         // starting a service within this class to make the app run in the background
         startService(new Intent(this, Service.class));
+
+        //Setting app to active
+        active = true;
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -130,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
+        active = true;
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -141,9 +145,25 @@ public class MainActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
 
+        active = false;
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        active = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        active = true;
     }
 }

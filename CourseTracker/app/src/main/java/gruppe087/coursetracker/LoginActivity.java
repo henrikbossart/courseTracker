@@ -57,6 +57,9 @@ public class LoginActivity extends Activity {
                     Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                     //Optional parameters: myIntent.putExtra("key", value);
                     LoginActivity.this.startActivity(myIntent);
+
+                    //create a fading animation
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
                 else
                 {
@@ -66,6 +69,7 @@ public class LoginActivity extends Activity {
         });
     }
 
+    /*
     public void createNotification(View view) {
         // Prepare intent which is triggered if the
         // notification is selected
@@ -88,6 +92,7 @@ public class LoginActivity extends Activity {
         notificationManager.notify(0, noti);
 
     }
+    */
 
 
     @Override
