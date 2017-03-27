@@ -66,7 +66,6 @@ public class LectureAdapter extends DataBaseAdapter {
         Cursor cursor = db.query("lecture", null, "courseID=? AND time=? AND date=?", new String[]{courseID, time, date}, null, null, null);
         System.out.println(time);
         System.out.println(courseID);
-        System.out.println();
 
         System.out.println(cursor);
         if (cursor.getCount() < 1) { // Key does not exist

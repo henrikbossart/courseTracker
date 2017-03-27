@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -121,7 +122,7 @@ public class MissedFragment extends Fragment {
                                         // set the lecture to attended
                                         lectureAdapter.setMissed(courseID2, time, date, 0);
                                         lectureAdapter.setAsked(courseID2, time, date, 1);
-                                        arrayAdapter.notifyDataSetChanged();
+                                        updateList();
                                     }
                                 })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -129,7 +130,7 @@ public class MissedFragment extends Fragment {
                                         // set the lecture to be missed
                                         lectureAdapter.setMissed(courseID2, time,date, 1);
                                         lectureAdapter.setAsked(courseID2, time, date, 1);
-                                        arrayAdapter.notifyDataSetChanged();
+                                        updateList();
                                     }
                                 })
                                 .show();
@@ -164,6 +165,22 @@ public class MissedFragment extends Fragment {
             lectureMissed = true;
         }
         return lectureMissed;
+    }
+
+    private void updateList(){
+        Date dNow = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = dateFormat.format(dNow);
+        for (int i = 0; i < listItems.size(); i++){
+            String courseId = listItems.get(i).split("\n|\t")[0];
+            String time = listItems.get(i).split("\n|\t")[3];
+            Boolean missed = lectureMissed(courseId, time, date);
+            if (missed){
+                listItems.remove(i);
+            }
+
+        }
+        arrayAdapter.notifyDataSetChanged();
     }
 
     private void initList(){
