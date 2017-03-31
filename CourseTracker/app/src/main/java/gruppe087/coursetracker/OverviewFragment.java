@@ -39,6 +39,7 @@ public class OverviewFragment extends Fragment {
     OverviewListAdapter<String> arrayAdapter;
     View rootView;
     LectureAdapter lectureAdapter;
+    UserLectureAdapter userLectureAdapter;
 
 
     @Override
@@ -47,6 +48,8 @@ public class OverviewFragment extends Fragment {
         agendaListView = (ListView) rootView.findViewById(R.id.agenda_lv);
         settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
         lectureAdapter = new LectureAdapter(getContext());
+        userLectureAdapter =
+                new UserLectureAdapter(getContext(), settings.getString("username", "default"));
         initList();
         return rootView;
     }
@@ -115,6 +118,7 @@ public class OverviewFragment extends Fragment {
             result=null;
         }
         lectureAdapter.open();
+        userLectureAdapter.open();
         try {
             JSONArray jsonArray = new JSONArray(result);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -124,12 +128,15 @@ public class OverviewFragment extends Fragment {
                 String date = jsonObject.getString("date");
                 String time = jsonObject.getString("time");
                 String room = jsonObject.getString("room");
-                lectureAdapter.insertEntry(courseID, date, time, room, "0", "0");
+                lectureAdapter.insertEntry(courseID, date, time, room);
+                int lectureID = lectureAdapter.getLectureID(courseID, date, time, room);
+                userLectureAdapter.insertEntry(lectureID, 0, 0);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         lectureAdapter.close();
+        userLectureAdapter.close();
     }
 
 

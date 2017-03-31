@@ -16,13 +16,11 @@ import java.util.ArrayList;
 public class LectureAdapter extends DataBaseAdapter {
 
     static final String ADD_LECTURE_TABLE =
-            "CREATE TABLE lecture("+
-                    "courseid 	TEXT NOT NULL, " +
+            "CREATE TABLE lecture(" +
+                    "courseID 	TEXT NOT NULL, " +
                     "time  		TEXT NOT NULL, " +
                     "date		TEXT NOT NULL, " +
                     "room 		TEXT NOT NULL, " +
-                    "missed		INT  NOT NULL, " +
-                    "asked      INT  NOT NULL, " +
                     "PRIMARY KEY(courseid, time, date, room)" +
                     ");";
 
@@ -36,18 +34,15 @@ public class LectureAdapter extends DataBaseAdapter {
     }
 
 
-    public void insertEntry(String courseID, String date, String time, String room, String missed, String asked){
+    public void insertEntry(String courseID, String date, String time, String room){
         ContentValues newValues = new ContentValues();
         if (getSingleEntry(courseID, time, date) != null){
             return;
         }
-
         newValues.put("courseID", courseID);
         newValues.put("date", date); //YYYY-mm-dd
         newValues.put("time", time); //HH:mm:ss
         newValues.put("room", room);
-        newValues.put("missed", missed);
-        newValues.put("asked", asked);
 
         try {
             db.insert("lecture", null, newValues);
@@ -63,14 +58,10 @@ public class LectureAdapter extends DataBaseAdapter {
     }
 
     public ArrayList<String> getSingleEntry(String courseID, String time, String date){
-        Cursor cursor = db.query("lecture", null, "courseID=? AND time=? AND date=?", new String[]{courseID, time, date}, null, null, null);
-        System.out.println(time);
-        System.out.println(courseID);
-
-        System.out.println(cursor);
+        Cursor cursor = db.query("lecture", null, "courseID=? AND time=? AND date=?",
+                new String[]{courseID, time, date}, null, null, null);
         if (cursor.getCount() < 1) { // Key does not exist
             cursor.close();
-            Toast.makeText(context, "There is no course with this key pair.", Toast.LENGTH_LONG).show();
             return null;
         }
 
@@ -80,9 +71,20 @@ public class LectureAdapter extends DataBaseAdapter {
         row.add(date);
         row.add(time);
         row.add(cursor.getString(cursor.getColumnIndex("room")));
-        row.add(cursor.getString(cursor.getColumnIndex("missed")));
-        row.add(cursor.getString(cursor.getColumnIndex("asked")));
         return row;
+    }
+
+    public int getLectureID(String courseID, String date, String time, String room){
+        Cursor cursor = db.query("lecture", new String[]{"ROWID"}, "courseID=? AND time=? AND date=? AND room=?",
+                new String[]{courseID, time, date, room}, null, null, null);
+        if (cursor.getCount() < 1) { // Key does not exist
+            cursor.close();
+            return -1;
+        }
+        cursor.moveToFirst();
+
+        return cursor.getInt(0);
+
     }
 
     public void updateEntry(String courseID, String time, String date){
@@ -97,36 +99,10 @@ public class LectureAdapter extends DataBaseAdapter {
 
     }
 
-    public boolean isAsked(String courseID, String time, String date){
-        time = time + ":00";
-        ArrayList<String> row = getSingleEntry(courseID, time, date);
-        String result = row.get(5);
-        System.out.println("BOOLEAN: " + Boolean.valueOf(result));
-        return Boolean.valueOf(result);
-    }
 
-    public void setMissed(String courseID, String time, String date, Integer missed){
 
-        ContentValues updatedValues = new ContentValues();
 
-        updatedValues.put("missed", missed);
-        time = time + ":00" ;
 
-        String where = "courseID=? AND time=? AND date=?";
-        db.update("lecture", updatedValues, where, new String[]{courseID, time,date});
-        System.out.println(getSingleEntry(courseID, time, date));
 
-    }
-
-    public void setAsked(String courseID, String time, String date, Integer asked){
-        ContentValues updatedValues = new ContentValues();
-
-        updatedValues.put("asked", asked);
-        time = time + ":00";
-
-        String where = "courseID=? AND time=? AND date=?";
-        db.update("lecture", updatedValues, where, new String[]{courseID, time,date});
-
-    }
 
 }

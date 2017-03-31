@@ -91,7 +91,6 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
                 stringURL += params[i];
             }
         }
-        System.out.println(stringURL);
         return stringURL;
     }
 

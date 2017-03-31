@@ -41,6 +41,7 @@ public class MissedFragment extends Fragment {
     MissedListAdapter<String> arrayAdapter;
     View rootView;
     LectureAdapter lectureAdapter;
+    UserLectureAdapter userLectureAdapter;
     private Boolean active;
 
     @Override
@@ -68,7 +69,9 @@ public class MissedFragment extends Fragment {
         ArrayList<String> courses = userCourseAdapter.getCoursesForUser(settings.getString("username", "default"));
         TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>();
         lectureAdapter = new LectureAdapter(getContext());
+        userLectureAdapter = new UserLectureAdapter(getContext(), settings.getString("username", "default"));
         lectureAdapter.open();
+        userLectureAdapter.open();
         Date dNow = new Date();
         DateFormat dateValueFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -103,9 +106,11 @@ public class MissedFragment extends Fragment {
                     String row = courseID + "\n" + courseName + "\nTid:\t" + time + "\nRom:\t" + room;
                     Integer hour = Integer.parseInt(time.split(":")[0]);
                     int timeValueLecture = Toolbox.timeToInt(time);
+                    String time2 = time + ":00";
+                    final int lectureID = lectureAdapter.getLectureID(courseID, date, time2, room);
+
                     //timeValueLecture = timeValueLecture + 90;
-                    System.out.println(lectureAdapter.isAsked(courseID, time, date));
-                    if (timeValueNow > timeValueLecture && !lectureAdapter.isAsked(courseID, time, date)){
+                    if (timeValueNow > timeValueLecture && !userLectureAdapter.isAsked(lectureID)){
                         //lectureAdapter.setMissed(courseID, time, date,  0);
 
                         // Create notification if window is not active
@@ -120,23 +125,24 @@ public class MissedFragment extends Fragment {
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // set the lecture to attended
-                                        lectureAdapter.setMissed(courseID2, time, date, 0);
-                                        lectureAdapter.setAsked(courseID2, time, date, 1);
+                                        userLectureAdapter.setMissed(lectureID, 0);
+                                        userLectureAdapter.setAsked(lectureID, 1);
                                         updateList();
                                     }
                                 })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // set the lecture to be missed
-                                        lectureAdapter.setMissed(courseID2, time,date, 1);
-                                        lectureAdapter.setAsked(courseID2, time, date, 1);
+                                        userLectureAdapter.setMissed(lectureID, 1);
+                                        userLectureAdapter.setAsked(lectureID, 1);
                                         updateList();
                                     }
                                 })
                                 .show();
                     }
+                    boolean missed = userLectureAdapter.isMissed(lectureID);
 
-                    if (lectureMissed(courseID, time, date)){
+                    if (missed){
                         sortMap.put(hour,row);
                     }
                 }
@@ -149,49 +155,62 @@ public class MissedFragment extends Fragment {
             returnList.add(entry.getValue());
         }
 
+
         return returnList;
     }
 
-    public boolean lectureMissed(String courseID, String time, String date){
+    public boolean lectureMissed(String courseID, String time, String date, String room){
         lectureAdapter = new LectureAdapter(getActivity().getApplicationContext());
+        userLectureAdapter = new UserLectureAdapter(getActivity().getApplicationContext(), settings.getString("username", "default"));
         lectureAdapter.open();
+        userLectureAdapter.open();
         time = time + ":00";
-        ArrayList<String> lecture = lectureAdapter.getSingleEntry(courseID, time, date);
-        int missed = Integer.parseInt(lecture.get(4));
-        Boolean lectureMissed;
-        if (missed < 1){
-            lectureMissed = false;
-        } else {
-            lectureMissed = true;
-        }
-        return lectureMissed;
+        return userLectureAdapter.isMissed(lectureAdapter.getLectureID(courseID, date, time, room));
     }
 
     private void updateList(){
         Date dNow = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = dateFormat.format(dNow);
+
         for (int i = 0; i < listItems.size(); i++){
             String courseId = listItems.get(i).split("\n|\t")[0];
             String time = listItems.get(i).split("\n|\t")[3];
-            Boolean missed = lectureMissed(courseId, time, date);
-            if (missed){
+            String room = listItems.get(i).split("\n|\t")[5];
+            Boolean missed = lectureMissed(courseId, time, date, room);
+            if (!missed){
                 listItems.remove(i);
             }
 
         }
+
         arrayAdapter.notifyDataSetChanged();
     }
 
     private void initList(){
 
         listItems = createMissedList();
+
         // Initializing getRequest class
+        Date dNow = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = dateFormat.format(dNow);
+        for (int i = 0; i < listItems.size(); i++){
+            String courseId = listItems.get(i).split("\n|\t")[0];
+            String time = listItems.get(i).split("\n|\t")[3];
+            String room = listItems.get(i).split("\n|\t")[5];
+            Boolean missed = lectureMissed(courseId, time, date, room);
+            if (!missed){
+                listItems.remove(i);
+            }
+
+        }
 
         // Create a List from String Array elements
         arrayAdapter = new MissedListAdapter<String>(getActivity().getApplicationContext(), R.layout.listitem, R.id.textview, listItems);
         // DataBind ListView with items from SelectListAdapter
         missedListView.setAdapter(arrayAdapter);
+        updateList();
         arrayAdapter.notifyDataSetChanged();
     }
 

@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 public abstract class Toolbox {
 
     public static int fragment = 0;
+    public static String SETTINGS_FILE = "CTPrefs";
 
 
     public Long SQLdateAndTimeToTimestamp(String date, String time){

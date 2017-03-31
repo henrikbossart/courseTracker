@@ -14,6 +14,13 @@ import java.util.ArrayList;
 
 public class UserCourseAdapter extends DataBaseAdapter {
 
+    static final String ADD_USER_COURSE_TABLE =
+            "CREATE TABLE usercourse("+
+                    "username 	TEXT NOT NULL,"+
+                    "courseid 	TEXT NOT NULL," +
+                    "PRIMARY KEY(username, courseid)" +
+                    "); ";
+
     public UserCourseAdapter(Context _context) {
         super(_context);
     }
@@ -42,7 +49,7 @@ public class UserCourseAdapter extends DataBaseAdapter {
         Cursor cursor = db.query("usercourse", null, "username=? AND courseid=?", new String[]{username, courseID}, null, null, null);
         if (cursor.getCount() < 1) { // Key does not exist
             cursor.close();
-            Toast.makeText(context, "There is no course with this key pair.", Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "There is no course with this key pair.", Toast.LENGTH_LONG).show();
             return null;
         }
 
@@ -59,7 +66,7 @@ public class UserCourseAdapter extends DataBaseAdapter {
         Cursor cursor = db.query("usercourse", null, "username=?", new String[]{username}, null, null, null);
         if (cursor.getCount() < 1) { // Key does not exist
             cursor.close();
-            Toast.makeText(context, "There is no course with this key pair.", Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "There is no course with this key pair.", Toast.LENGTH_LONG).show();
             return null;
         }
         cursor.moveToFirst();

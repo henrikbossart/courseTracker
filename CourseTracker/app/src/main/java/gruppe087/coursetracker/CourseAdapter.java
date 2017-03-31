@@ -14,8 +14,12 @@ import java.util.ArrayList;
 
 public class CourseAdapter extends DataBaseAdapter {
 
-    static final String ADD_COURSE_TABLE = "create table "+"COURSE"+
-            "( " +"COURSEID"+" text primary key not null,"+ "COURSENAME  text,LOCATION text,EXAMDATE text); ";
+    static final String ADD_COURSE_TABLE =  "create table COURSE( " +
+                                            "COURSEID       text    primary key not null,"+
+                                            "COURSENAME     text," +
+                                            "LOCATION       text," +
+                                            "EXAMDATE       text" +
+                                            "); ";
 
 
     public CourseAdapter(Context _context) {
@@ -66,7 +70,6 @@ public class CourseAdapter extends DataBaseAdapter {
         Cursor cursor = db.query("COURSE", null, " COURSEID=?", new String[]{courseID}, null, null, null);
         if(cursor.getCount()<1){ // CourseID does not exist
             cursor.close();
-            Toast.makeText(context, "There is no course with this course code.",Toast.LENGTH_LONG).show();
             return null;
 
         }

@@ -52,7 +52,7 @@ public class LoginActivity extends Activity {
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("username", userName);
                     editor.commit();
-                    Toast.makeText(LoginActivity.this, "Congrats: Login Successfull", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(LoginActivity.this, "Congrats: Login Successfull", Toast.LENGTH_LONG).show();
                     // Define action on click
                     Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                     //Optional parameters: myIntent.putExtra("key", value);
@@ -63,7 +63,7 @@ public class LoginActivity extends Activity {
                 }
                 else
                 {
-                    Toast.makeText(LoginActivity.this, "User Name or Password is not correct or found in database", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(LoginActivity.this, "User Name or Password is not correct or found in database", Toast.LENGTH_LONG).show();
                 }
             }
         });

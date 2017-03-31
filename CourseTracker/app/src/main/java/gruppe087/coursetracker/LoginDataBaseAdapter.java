@@ -18,8 +18,10 @@ public class LoginDataBaseAdapter extends DataBaseAdapter {
 
     // TODO: Create public field for each column in your table.
     // SQL Statement to create a new database.
-    static final String DATABASE_CREATE = "create table "+"LOGIN"+
-            "( USERNAME  text primary key not null,PASSWORD text); ";
+    static final String DATABASE_CREATE =   "create table LOGIN(" +
+                                            "USERNAME   text    primary key not null," +
+                                            "PASSWORD   text" +
+                                            "); ";
     // Variable to hold the database instance
     // Context of the application using the database.
     // Database open/upgrade helper

@@ -20,12 +20,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
 	}
 
 
-	static final String ADD_USER_COURSE_TABLE =
-			"CREATE TABLE usercourse("+
-			"username 	TEXT NOT NULL,"+
-			"courseid 	TEXT NOT NULL," +
-			"PRIMARY KEY(username, courseid)" +
-			"); ";
+
 	// Called when no database exists in disk and the helper class needs
 	// to create a new one.
 	@Override
@@ -34,7 +29,8 @@ public class DataBaseHelper extends SQLiteOpenHelper
 			_db.execSQL(LoginDataBaseAdapter.DATABASE_CREATE);
 			_db.execSQL(CourseAdapter.ADD_COURSE_TABLE);
 			_db.execSQL(LectureAdapter.ADD_LECTURE_TABLE);
-			_db.execSQL(ADD_USER_COURSE_TABLE);
+			_db.execSQL(UserCourseAdapter.ADD_USER_COURSE_TABLE);
+			_db.execSQL(UserLectureAdapter.ADD_USER_LECTURE_TABLE );
 			
 	}
 	// Called when there is a database version mismatch meaning that the version
