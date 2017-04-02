@@ -81,7 +81,7 @@ public class ProviderLocationTracker implements LocationListener, LocationTracke
         return true;
     }
 
-    // Returns location if we has a location, stale otherwise
+    // Returns location if we have a location, stale otherwise
     public boolean hasPossiblyStaleLocation(){
         if(this.lastLocation != null){
             return true;
@@ -89,7 +89,7 @@ public class ProviderLocationTracker implements LocationListener, LocationTracke
         return this.lm.getLastKnownLocation(provider)!= null;
     }
 
-    // Retuns location and if unable to track current position
+    // Retuns location and null if unable to track current position
     public Location getLocation(){
         if(this.lastLocation == null){
             return null;
