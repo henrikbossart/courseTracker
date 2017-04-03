@@ -24,5 +24,6 @@
 <li>Cras semper pulvinar urna, quis dignissim purus tristique et.</li>
 <li>Curabitur non sapien aliquam, dapibus sem eu, tincidunt ex.</li>
 <li>Fusce quis sodales nunc. </li></ul></string>
+    <string name="title_activity_dialog">DialogActivity</string>
 </resources>
 

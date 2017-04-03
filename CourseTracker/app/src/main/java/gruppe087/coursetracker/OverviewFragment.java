@@ -101,7 +101,7 @@ public class OverviewFragment extends Fragment {
         for (Map.Entry<Integer, String> entry : sortMap.entrySet()){
             returnList.add(entry.getValue());
         }
-
+        MainActivity.setListItems(returnList);
         return returnList;
     }
 

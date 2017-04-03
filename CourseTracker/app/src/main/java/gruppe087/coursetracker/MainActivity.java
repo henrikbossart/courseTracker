@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -37,6 +38,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,10 +49,22 @@ public class MainActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "CTPrefs";
     private GoogleApiClient client;
     private Boolean active;
+    private static ArrayList<String> listItems;
+
+
+    public static void setListItems(ArrayList<String> listItems){
+        listItems = listItems;
+    }
+
+    public static ArrayList<String> getListItems(){
+        return listItems;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         //Setting app to active
         active = true;
@@ -163,4 +177,6 @@ public class MainActivity extends AppCompatActivity {
 
         active = true;
     }
+
+
 }
