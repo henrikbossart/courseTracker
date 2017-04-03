@@ -149,6 +149,8 @@ public class MissedFragment extends Fragment {
 
 
                     sortMap.put(hour,row);
+
+
                 }
             } catch (JSONException e) {
             }
@@ -167,6 +169,7 @@ public class MissedFragment extends Fragment {
         lectureAdapter.open();
         userLectureAdapter.open();
         time = time + ":00";
+        time = time.substring(0,8);
         return userLectureAdapter.isMissed(lectureAdapter.getLectureID(courseID, date, time, room));
     }
 
@@ -255,8 +258,23 @@ public class MissedFragment extends Fragment {
         Boolean missed = lectureMissed(courseId, time, thisDate, room);
         time = time + ":00";
         lectureId = lectureAdapter.getLectureID(courseId, thisDate, time, room);
+        if(userLectureAdapter.isAsked(lectureId)){
+            if (!userLectureAdapter.isMissed(lectureId)){
+                listItems.remove(i);
+                if (i < listItems.size()){
+                    initListPrompt(i);
+                }
+            } else {
+                i++;
+                if (i < listItems.size()) {
+                    initListPrompt(i);
+                }
+            }
+
+        }
         missedPrompt(timeValueLecture, lectureId, courseId, time, i);
     }
+
 
     private void initList(){
 
