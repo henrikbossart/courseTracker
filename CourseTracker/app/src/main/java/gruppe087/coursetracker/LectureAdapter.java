@@ -7,7 +7,10 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by petercbu on 21.03.2017.
@@ -21,8 +24,11 @@ public class LectureAdapter extends DataBaseAdapter {
                     "time  		TEXT NOT NULL, " +
                     "date		TEXT NOT NULL, " +
                     "room 		TEXT NOT NULL, " +
+                    "curriculum TEXT," +
                     "PRIMARY KEY(courseid, time, date, room)" +
                     ");";
+
+    CourseAdapter courseAdapter;
 
     public LectureAdapter(Context _context) {
         super(_context);
@@ -30,6 +36,8 @@ public class LectureAdapter extends DataBaseAdapter {
 
     public  LectureAdapter open() throws SQLException {
         db = dbHelper.getWritableDatabase();
+        courseAdapter = new CourseAdapter(context);
+        courseAdapter.open();
         return this;
     }
 
@@ -50,6 +58,54 @@ public class LectureAdapter extends DataBaseAdapter {
 
         }
 
+    }
+
+    public void addCurriculum(String courseID, String date, String time, String room, String curriculum){
+        ContentValues updatedValues = new ContentValues();
+        String where = "courseID=? AND time=? AND date=?";
+        updatedValues.put("curriculum", curriculum);
+        try {
+            db.update("lecture", updatedValues, where, new String[]{courseID, time, date});
+        } catch (SQLiteConstraintException e){
+
+        }
+
+    }
+
+    public String getCurriculum(String courseID, String date, String time){
+        Cursor cursor = db.query("lecture", null, "courseID=? AND time=? AND date=?",
+                new String[]{courseID, time, date}, null, null, null);
+        if (cursor.getCount() < 1){
+            cursor.close();
+            return null;
+        }
+
+        cursor.moveToFirst();
+        String curriculum = cursor.getString(cursor.getColumnIndex("curriculum"));
+        return curriculum;
+    }
+
+    public ArrayList<String> getLecturesForToday(String courseID){
+        ArrayList<String> todayLectures = new ArrayList<String>();
+        Date dNow = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String today = dateFormat.format(dNow);
+        Cursor cursor = db.query("lecture", null, "courseID=? AND date=?",
+                new String[]{courseID, today}, null, null, null);
+        if (cursor.getCount() < 1){
+            cursor.close();
+            return null;
+        }
+        cursor.moveToFirst();
+        String courseName = courseAdapter.getSingleEntry(courseID).get(1);
+        for (int i = 0; i < cursor.getCount(); i++){
+            String room = cursor.getString(cursor.getColumnIndex("room"));
+            String time = cursor.getString(cursor.getColumnIndex("time")).substring(0,5);
+            String row = courseID + "\n" + courseName + "\nTid:\t" + time + "\nRom:\t" + room;
+            todayLectures.add(row);
+            cursor.moveToNext();
+        }
+        return todayLectures;
     }
 
     public int deleteEntry(String courseID, String time, String date){

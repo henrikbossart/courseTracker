@@ -63,7 +63,7 @@ public class MissedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_missed, container, false);
         timeFormat = new SimpleDateFormat("HH:mm:ss");
-        dateFormat = new SimpleDateFormat("yyyy-MM-ss");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dNow = new Date();
         missedListView = (ListView) rootView.findViewById(R.id.missed_lv);
         settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
@@ -73,7 +73,14 @@ public class MissedFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent myIntent = new Intent(getActivity(), MissedLectureCurriculum.class);
-                //Optional parameters: myIntent.putExtra("key", value);
+                String text = missedListView.getItemAtPosition(position).toString();
+                String courseId = text.split("\n|\t")[0];
+                String time = text.split("\n|\t")[3];
+                time = time + ":00";
+                time = time.substring(0,8);
+                String date = dateFormat.format(dNow);
+                String curriculum = lectureAdapter.getCurriculum(courseId, date, time);
+                myIntent.putExtra("curriculum", curriculum);
                 getActivity().startActivity(myIntent);
             }
         });
@@ -258,6 +265,12 @@ public class MissedFragment extends Fragment {
         Boolean missed = lectureMissed(courseId, time, thisDate, room);
         time = time + ":00";
         lectureId = lectureAdapter.getLectureID(courseId, thisDate, time, room);
+        if (timeValueNow < timeValueLecture){
+            listItems.remove(i);
+            if (i < listItems.size()){
+                initListPrompt(i);
+            }
+        }
         if(userLectureAdapter.isAsked(lectureId)){
             if (!userLectureAdapter.isMissed(lectureId)){
                 listItems.remove(i);
