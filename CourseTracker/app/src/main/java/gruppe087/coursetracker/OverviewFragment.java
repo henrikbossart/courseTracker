@@ -56,6 +56,9 @@ public class OverviewFragment extends Fragment {
         userLectureAdapter =
                 new UserLectureAdapter(getContext(), settings.getString("username", "default"));
         initList();
+        lectureAdapter.close();
+        userLectureAdapter.close();
+        userCourseAdapter.close();
         return rootView;
     }
 
@@ -159,9 +162,7 @@ public class OverviewFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        lectureAdapter.close();
-        userLectureAdapter.close();
-        userCourseAdapter.close();
+
     }
 
 
