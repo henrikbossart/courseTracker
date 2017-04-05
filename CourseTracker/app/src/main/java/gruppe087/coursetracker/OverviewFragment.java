@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -51,7 +52,7 @@ public class OverviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_overview, container, false);
         agendaListView = (ListView) rootView.findViewById(R.id.agenda_lv);
-        settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        settings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         lectureAdapter = new LectureAdapter(getContext());
         userLectureAdapter =
                 new UserLectureAdapter(getContext(), settings.getString("username", "default"));

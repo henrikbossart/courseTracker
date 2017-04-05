@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 /**
  * Created by petercbu on 03.04.2017.
@@ -21,7 +22,7 @@ public class AttendDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        settings = getActivity().getSharedPreferences(Toolbox.SETTINGS_FILE, 0);
+        settings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         userLectureAdapter = new UserLectureAdapter(getActivity().getApplicationContext(), settings.getString("username", "default"));
         Bundle args = getArguments();
         int courseID = args.getInt("courseID");

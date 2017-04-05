@@ -3,6 +3,7 @@ package gruppe087.coursetracker;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -43,7 +44,7 @@ public class DialogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dialog);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        settings = getSharedPreferences(Toolbox.SETTINGS_FILE, 0);
+        settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         userLectureAdapter = new UserLectureAdapter(getApplicationContext(), settings.getString("username", "default"));
 
     }

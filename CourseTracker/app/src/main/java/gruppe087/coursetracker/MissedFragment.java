@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -66,7 +67,7 @@ public class MissedFragment extends Fragment {
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dNow = new Date();
         missedListView = (ListView) rootView.findViewById(R.id.missed_lv);
-        settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        settings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
         active = true;
         missedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
