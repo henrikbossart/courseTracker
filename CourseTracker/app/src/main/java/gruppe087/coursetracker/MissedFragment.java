@@ -262,9 +262,11 @@ public class MissedFragment extends Fragment {
         time = listItems.get(i).split("\n|\t")[3];
         String room = listItems.get(i).split("\n|\t")[5];
         timeValueLecture = Toolbox.timeToInt(time);
-        Boolean missed = lectureMissed(courseId, time, thisDate, room);
         time = time + ":00";
         lectureId = lectureAdapter.getLectureID(courseId, thisDate, time, room);
+        if (lectureId == -1){
+            ;
+        }
         if (timeValueNow < timeValueLecture){
             listItems.remove(i);
             if (i < listItems.size()){

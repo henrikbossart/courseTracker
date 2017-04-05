@@ -16,5 +16,9 @@
         android:fragment="gruppe087.coursetracker.SettingsActivity$DataSyncPreferenceFragment"
         android:icon="@drawable/ic_sync_black_24dp"
         android:title="@string/pref_header_data_sync" />
+    <header
+        android:fragment="gruppe087.coursetracker.SettingsActivity$DataSyncPreferenceFragment"
+        android:icon="@drawable/ic_account_circle_black_24px"
+        android:title="@string/pref_header_user" />
 
 </preference-headers>

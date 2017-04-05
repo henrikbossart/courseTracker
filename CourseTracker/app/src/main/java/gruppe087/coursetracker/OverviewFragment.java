@@ -77,6 +77,7 @@ public class OverviewFragment extends Fragment {
         for (String courseID : courses){
 
             ArrayList<String> todayLectures = lectureAdapter.getLecturesForToday(courseID);
+            System.out.println();
             if (todayLectures != null){
                 for (String row : todayLectures){
                     Integer hour = Integer.parseInt(row.split("\n|\t")[3].substring(0,2));

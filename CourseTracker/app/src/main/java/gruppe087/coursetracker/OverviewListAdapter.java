@@ -12,8 +12,11 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 import static android.R.attr.resource;
 
@@ -37,12 +40,13 @@ public class OverviewListAdapter<E> extends ArrayAdapter<E> {
         String text = (String) tv.getText();
         String[] details = text.split("(\n|\t)");
         String courseID = details[0];
-        String time = details[3];
+        String time = (details[3] + ":00").substring(0,8);
         Date dNow = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        String date = dateFormat.format(dNow);
-        int timeNow = Toolbox.timeToInt(timeFormat.format(dNow));
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
+        String now = timeFormat.format(dNow);
+        int timeNow = Toolbox.timeToInt(now);
         int lectureTime = Toolbox.timeToInt(time);
         if (lectureTime + 90 < timeNow) {
             tv.setTextColor(getContext().getResources().getColor(R.color.gray));
