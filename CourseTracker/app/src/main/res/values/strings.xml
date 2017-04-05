@@ -105,5 +105,11 @@
     <!-- User -->
     <string name="pref_header_user">User</string>
 
+    <string name="course_list_title">Courses</string>
+    <string-array name="courses">
+        <item>TDT4100</item>
+    </string-array>
+    <string-array name="empty_array"></string-array>
+
 </resources>
 

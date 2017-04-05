@@ -3,6 +3,7 @@ package gruppe087.coursetracker;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.Ringtone;
@@ -17,8 +18,10 @@ import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -274,12 +277,27 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             setHasOptionsMenu(true);
 
             Preference button = findPreference(getString(R.string.logout_button));
+            final Boolean click = false;
             button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     //code for what you want it to do
-                    Intent intent = new Intent(getActivity(), SetupActivity.class);
-                    getActivity().startActivity(intent);
+
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Logout")
+                            .setMessage("Are you sure you want to log out?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(getActivity(), SetupActivity.class);
+                                    getActivity().startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .show();
 
                     return true;
                 }
