@@ -1,0 +1,14 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server for lectureres in coursetracker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Henrik Bossart",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
