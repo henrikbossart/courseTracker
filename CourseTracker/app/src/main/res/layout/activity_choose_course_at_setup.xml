@@ -38,7 +38,9 @@
             android:id="@+id/searchtxt"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:hint="Search" />
+            android:hint="Search"
+            android:imeOptions="actionDone"
+            android:inputType="text" />
 
         <ListView
             android:layout_width="match_parent"
