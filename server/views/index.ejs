@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/css/materialize.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/style.css"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+    <header>
+      <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo center">Coursetracker</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="/logout">Sign Out</a></li>
+        </ul>
+      </div>
+    </nav>
+    </header>
+
+    <main>
+        <!-- Modal Trigger -->
+      <div class="container">
+        <% if(data.length){
+        for(var i = 0;i < data.length;i++) { %>
+
+        <ul class="collapsible" data-collapsible="accordion">
+          <li>
+            <div class="collapsible-header"><%=data[i].courseID + ' - ' + data[i].courseName%></div>
+            <div class="collapsible-body">
+
+              <form class="col s12" action="/send" method="post">
+                <div class="row">
+                  <div class="input-field col s6">
+                    <input type="text" name="coursecode" id="coursecode" value="<%=data[i].courseID%>">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s6">
+                    <input placeholder="Date" id="date" type="text" name="date">
+                    <label for="date">Date</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <input placeholder="Time" id="time" type="text" name="time">
+                    <label for="time">Time</label>
+                  </div>
+                </div>
+
+              <div class="row">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <textarea id="textarea1" class="materialize-textarea" name="textarea1"></textarea>
+                      <label for="textarea1">Textarea</label>
+                    </div>
+                  </div>
+              </div>
+
+              <br />
+              <center>
+                <div class='row'>
+                  <button type='submit' name='btn_send' class='col s3 btn waves-effect coursetracker-red offset-l8'>send</button>
+                </div>
+              </center>
+            </form>
+            </div>
+          </li>
+        </ul>
+        <% }
+        } else { %>
+        <h1>NO COURSES!</h1>
+        <% } %>
+      </div>
+
+      <!-- Modal Structure -->
+      <div id="modal1" class="modal bottom-sheet">
+        <div class="modal-content">
+          <h4>Add Courses</h4>
+          <p>A window to add courses</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Footer Content</h5>
+            <p class="grey-text text-lighten-4">some text</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Links</h5>
+            <ul>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          © 2014 Copyright Text
+          <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        </div>
+      </div>
+    </footer>
+
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/js/materialize.js"></script>
+    <script>
+    $(document).ready(function() {
+      $('select').material_select();
+      $('.modal').modal();
+    });
+    </script>
+  </body>
+</html>

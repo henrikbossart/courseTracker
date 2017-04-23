@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/res/merged/debug/xml/pref_user.xml",
+        "source": "/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/src/main/res/xml/pref_user.xml"
+    },
+    {
+        "merged": "/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/res/merged/debug/xml/pref_notification.xml",
+        "source": "/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/src/main/res/xml/pref_notification.xml"
+    },
+    {
+        "merged": "/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/res/merged/debug/xml/pref_data_sync.xml",
+        "source": "/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/src/main/res/xml/pref_data_sync.xml"
+    },
+    {
+        "merged": "/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/res/merged/debug/xml/pref_headers.xml",
+        "source": "/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/src/main/res/xml/pref_headers.xml"
+    },
+    {
+        "merged": "/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/res/merged/debug/xml/pref_general.xml",
+        "source": "/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/src/main/res/xml/pref_general.xml"
+    }
+]
