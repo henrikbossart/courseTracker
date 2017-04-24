@@ -2,11 +2,16 @@
 
 from scraper.manipulateCSV import ManipulateCSVFile
 
+# This is an example on how we can scrape information about lectures from NTNU's site.
 
-class CourseInformationScraperTest:
-
+class CourseInformationScraper:
 
     def __init__(self):
 
 
 
+
+    # Reads courseCodes from csv file
+    def getCourseInformationLink(self):
+        
+        self.courseInformationLink = url
