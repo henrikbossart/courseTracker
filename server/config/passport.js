@@ -28,8 +28,11 @@ module.exports = function (passport) {
     // LOCAL SIGNUP
     // we are using named strategies since we have one for login and one for signup
     // by default, if there was no name, it would just be called 'local'
+    //
+    // Signup is not needed, and therefore commented out. Users will be added directly
+    // into the database by sysadmin
     ///////////////////////////////////////
-
+    /*
     passport.use('local-signup', new LocalStrategy({
         usernameField       : 'username',
         passwordField       : 'password',
@@ -58,7 +61,7 @@ module.exports = function (passport) {
             }
         });
     }));
-
+    */
     ///////////////////////////////////////
     // LOCAL LOGIN
     // we are using named strategies since we have one for login and one for signup

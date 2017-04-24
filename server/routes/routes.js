@@ -53,6 +53,7 @@ module.exports = function(app,passport, connection){
             if (err){
                 console.log('Error selecting : %s', err);
             }
+            console.log(rows);
             res.render('index.ejs', {page_title:"Index", data: rows, time: times});
         })
     });
@@ -67,11 +68,16 @@ module.exports = function(app,passport, connection){
             "' WHERE lecture.courseID = '" + coursecode +
             "' AND lecture.time = '" + time +
             "' AND lecture.date = '" + date + "'";
+        put();
 
-        connection.query(query);
-
-        console.log(query);
-        res.redirect('/home');
+        function put(err) {
+            connection.query(query);
+            if (err){
+                res.json({'ERROR: ': err})
+            } else {
+                res.redirect('/home');
+            }
+        }
     });
 
 

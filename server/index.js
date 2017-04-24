@@ -16,9 +16,7 @@ var mysql       = require('mysql');
 var path        = require('path');
 var http        = require('http');
 var router      = express.Router();
-var data        = require('./routes/data');
-
-var isLoggedIn  = require('./config/passport_function.js');
+//var data        = require('./routes/data');
 
 /////////////////////////////////////////////////////
 // SETTING UP ENVIRONMENT
@@ -46,7 +44,6 @@ router.use(function (req, res, next) {
     console.log(request_text);
     next();
 })
-
 
 /////////////////////////////////////////////////////
 // CONNECTING TO DATABASE
@@ -81,3 +78,5 @@ require('./routes/routes')(app, passport, connection);
 app.listen(port, function () {
     console.log('server running on port ' + port);
 });
+
+module.exports = app;

@@ -4,7 +4,7 @@
   "description": "server for lectureres in coursetracker",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "nyc mocha",
     "start": "node index.js"
   },
   "test-unit": "NODE_ENV=test mocha '/**/*.spec.js'",
@@ -22,10 +22,15 @@
     "express-session": "^1.15.2",
     "jade": "^1.11.0",
     "logger": "0.0.1",
+    "mocha": "^3.2.0",
     "morgan": "^1.8.1",
     "mysql": "^2.13.0",
     "passport": "^0.3.2",
-    "sinon": "^2.1.0",
     "swig": "^1.4.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "nyc": "^10.2.0"
   }
 }
