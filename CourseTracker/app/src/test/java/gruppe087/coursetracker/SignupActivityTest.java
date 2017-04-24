@@ -1,8 +1,5 @@
 package gruppe087.coursetracker;
 
-import android.os.Bundle;
-import android.widget.EditText;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,15 +13,17 @@ public class SignupActivityTest {
 
     SignupActivity signupTest = new SignupActivity();
 
-    /*to String
+    /*
+    to String
     String usrname = signupTest.editTextUserName.getText().toString();
     String password = signupTest.editTextPassword.getText().toString();
-    String confirmPassword = signupTest.editTextConfirmPassword.getText().toString();*/
+    String confirmPassword = signupTest.editTextConfirmPassword.getText().toString();
+    */
 
     @Test
     public void onCreate() throws Exception {
         //dummy input
-        String usrname = "Kari";
+        String username = "Kari";
         String password = "Hemmelig";
         String confirmPasswordCorrect = "Hemmelig";
         String confirmPasswordIncorrect = "Hemelig";
@@ -33,7 +32,7 @@ public class SignupActivityTest {
 
         assertEquals(password, confirmPasswordCorrect);
         assertNotEquals(password, confirmPasswordIncorrect);
-        assertTrue(usrname != null);
+        assertTrue(username != null);
         assertTrue(password != null);
         assertTrue(confirmPasswordCorrect != null);
     }
