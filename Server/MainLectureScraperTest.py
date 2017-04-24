@@ -1,53 +1,128 @@
-# encoding: utf-8
-from datetime import date
-from scraper.scrapeLectureInformation import LectureInformationScraper
+# Test case
+import unittest2
+from mainLectureScraper import Main
+from tests.testScrapeLectureInformation import TestLectureInformationScraper
 from tests.testManipulateCSV import TestManipulateCSVFile
 
-def main():
 
-    chooseOption()
+class TestMain(unittest2.TestCase):
 
+    def testRun(self):
+        # Main class
+        mainMethod = Main()
 
+        # Checks variables for the lines 9-13
 
-
-def chooseOption():
-    choice = None
-    string = ("What do you wan|t to test? \n0: Nothing -> Exit \n1: csv manipulation \n2: LectureScraper \n3: BLA \n4: BLA \nChoice: ")
-    
-    while(choice != 0):
-        choice = int(raw_input(string))
+        self.assertEqual(mainMethod.courses, TestLectureInformationScraper())
+        self.assertEqual(mainMethod.courseCodes, TestLectureInformationScraper.testGetCourseCodesInCSV)
+        self.assertEqual(mainMethod.year, date.today().year)
+        self.assertEqual(mainMethod.version, 1)
         
-        if(choice == 0):
-            #0 - Exiting
-            print "\nExiting"   
+        # Checks variables for the lines 16-22
+        self.assertEqual(mainMethod.courseCodes, len(courses.testGetCourseCodesInCSV()))
+        self.assertEqual(mainMethod.course, TestLectureInformationScraper())
+        self.assertEqual(mainMethod.course.getCourseInformationLink(courseCodes[0], mainMethod.year, mainMethod.version), TestLectureInformationScraper().testGetCourseInformationLink(LectureInformationScraper().getCourseCodesInCSV()[0], '2017', '1'))
+        self.assertEqual(mainMethod.couse.getCourseInformation(), TestLectureInformationScraper().testGetCourseInformation())
+        self.assertEqual(mainMethod.numLectures, TestLectureInformationScraper().testCountNumLectures())
+        self.assertEqual(mainMethod.lectureIndexes, TestLectureInformationScraper().testGetLectureIndex())
 
-        elif(choice == 1):
-            #1 - csv Manipulation
-            testCSVManipulation = TestManipulateCSVFile()
-            testCSVManipulation.run()
-            print "\nFinised testing csv manipulation"
-         
-        elif(choice == 2):
-            #2 - Reading file
-            print "\nFinished testing "
-         
-        elif(choice == 3):
-            #3 - Count lines in file
-            print ("\nNumber of lines in the file is: ")
+        # Test: Add lecture to csv file
+        TestLectureInformationScraper().testFetchInfoFromHtml(lectureIndexes[0])
+        TestLectureInformationScraper().testAddLecturesToCSV()
+
+
+        # Test: Make a lecture for every week instead of a lecture for ex. week 2-15
+        TestLectureInformationScraper().testRunFixLectureWeeks()
+
+
+        # Test: # Converts from weekday and week to date
+        TestManipulateCSVFile().testLectureToDateFormat()
+
+        # -------------------------------------------------------------
+        # Testing functions in testScrapeLectureInformation:
+        testSLI = TestLectureInformationScraper()
+
+        # Test: Fetches the link to the course from NTNU's site
+        testSLI.testGetCourseInformationLink()
+
+
+        # Test: Fetches and saves html-content to a string
+        testSLI.testGetCourseInformation()
+
+
+        # Test: Saves the html-content to a temporarily file if wanted
+        testSLI.testAddLectureInformationToTxt()
+
+        
+        # Test: Count numbers of lectures 
+        testSLI.testCountNumLectures()
+
+
+        # Test: Get all lecture indexes
+        testSLI.testGetLectureIndex()
+
+
+        # Test: Saves information from site as a string
+        testSLI.testFetchInfoFromHtml()
+
             
-        elif(choice == 4):
-            #4 - Delete everything inside the file
-            print "\nTest file is now empty"
-         
-        else:
-            print "\nYou didn't choose any of the options"
-
-    
+        # Test: Append information about lectures to CSV file
+        testSLI.testAddLecturesToCSV()
 
 
+        # Test: Returns list of course codes in csv file
+        testSLI.testGetCourseCodesInCSV()
 
 
+        # Test: Runs the command fixLextureWeeks in manipulateCSV
+        testSLI.testRunFixLectureWeeks()
 
-main()
+
+        # -------------------------------------------------------------
+        # Testing functions in testManipulateCSV:
+        testMCSV = TestManipulateCSVFile()
+
+        # Test: Commandline for choosing file to manipulate
+        testMCSV.testChooseFile()
+            
+
+        # Test: Returns TDT courses csv filepath
+        testMCSV.testGetCourseCodeFilePath()
 
 
+        # Test: Prints out content in csv file
+        testMCSV.testReadCSV()
+
+
+        # Test: Fetch and saves a specific column in csv file to a list
+        testMCSV.testFetchFromCSV()
+
+
+        # Test: Writes to csv file
+        testMCSV.testWriteToCSV()
+
+
+        # Test: Count lines in csv file
+        testMCSV.testCountLinesInCSV()
+
+        
+        # Test: Deletes information stored in the csv-file
+        testMCSV.testCleanCSVFile()
+
+        # Test: Makes the csv file correct for implementation to sql database
+        testMCSV.testFixtestLectureWeeks()
+
+
+        # Returns date from weekday, weeknumber and year
+        testMCSV.testGetDate()
+
+
+        # Convert weekday and week to date
+        testMCSV.testLectureToDateFormat()
+
+
+        print "Testing complete"
+
+#TestMain().testRun()
+if __name__ == '__main__':
+    unittest2.main()
