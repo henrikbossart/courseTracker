@@ -143,6 +143,7 @@ public class LectureAdapter extends DataBaseAdapter {
 
     }
 
+
     public void updateEntry(String courseID, String time, String date){
         ContentValues updatedValues = new ContentValues();
 

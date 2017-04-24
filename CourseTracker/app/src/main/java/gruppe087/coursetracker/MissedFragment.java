@@ -76,10 +76,14 @@ public class MissedFragment extends Fragment {
                 Intent myIntent = new Intent(getActivity(), MissedLectureCurriculum.class);
                 String text = missedListView.getItemAtPosition(position).toString();
                 String courseId = text.split("\n|\t")[0];
+
                 String time = text.split("\n|\t")[3];
                 time = time + ":00";
                 time = time.substring(0,8);
                 String date = dateFormat.format(dNow);
+                updateCurriculum(courseId, date);
+
+
                 String curriculum = lectureAdapter.getCurriculum(courseId, date, time);
                 myIntent.putExtra("curriculum", curriculum);
                 getActivity().startActivity(myIntent);
@@ -94,6 +98,38 @@ public class MissedFragment extends Fragment {
         initListPrompt(0);
         //initList();
         return rootView;
+    }
+
+
+    private void updateCurriculum(String courseID, String date){
+        String result;
+        getRequest = new HttpGetRequest("getLecture.php");
+        try {
+            result = getRequest.execute("courseID", courseID, "date", date).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            result=null;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            result=null;
+        }
+        lectureAdapter.open();
+        userLectureAdapter.open();
+        try {
+            JSONArray jsonArray = new JSONArray(result);
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                courseID = jsonObject.getString("courseID");
+                String time = jsonObject.getString("time");
+                String room = jsonObject.getString("room");
+                String curriculum = jsonObject.getString("curriculum");
+                time = time + ":00";
+                lectureAdapter.addCurriculum(courseID, date, time, room, curriculum);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

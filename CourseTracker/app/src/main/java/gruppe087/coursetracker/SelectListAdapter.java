@@ -2,6 +2,7 @@ package gruppe087.coursetracker;
 
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +29,16 @@ public class SelectListAdapter<E> extends BaseAdapter {
     Activity activity;
     ArrayList<String> listItems;
     HashSet<Integer> hiddenPositions = new HashSet<Integer>();
-    HashSet<Integer> selected;
+    HashSet<Position> selected;
+    Resources res;
 
 
 
-    public SelectListAdapter(Activity activity, ArrayList<String> listItems, HashSet<Integer> selected){
+    public SelectListAdapter(Activity activity, ArrayList<String> listItems, HashSet<Position> selected, Resources res){
         this.activity = activity;
         this.listItems = listItems;
         this.selected = selected;
+        this.res = res;
     }
 
     @Override
@@ -57,7 +60,14 @@ public class SelectListAdapter<E> extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        ArrayList<Integer> sortedList = new ArrayList<Integer>(hiddenPositions);
+        Collections.sort(sortedList);
+        for(Integer hiddenIndex : sortedList) {
+            if(hiddenIndex <= position) {
+                position = position + 1;
+            }
+        }
+        return position;
     }
 
     @Override
@@ -80,6 +90,14 @@ public class SelectListAdapter<E> extends BaseAdapter {
         //sets the text for item name and item description from the current item object
         textViewItemName.setText(currentItem);
 
+        long id = getItemId(position);
+        if (isSelected((int) id)){
+            convertView.setBackgroundColor(res.getColor(R.color.gray));
+        } else {
+            convertView.setBackgroundColor(res.getColor(R.color.white));
+        }
+
+
         // returns the view for the current row
         return convertView;
 
@@ -96,19 +114,19 @@ public class SelectListAdapter<E> extends BaseAdapter {
     }
 
     public boolean isHidden(int pos){
-        if (hiddenPositions.contains(pos)){
+        if (hiddenPositions.contains(new Position(pos))){
             return true;
         } else {
             return false;
         }
     }
 
-    public void updateSelected(HashSet<Integer> selected){
+    public void updateSelected(HashSet<Position> selected){
         this.selected = selected;
     }
 
     private boolean isSelected(int pos){
-        if (selected.contains(pos)){
+        if (selected.contains(new Position(pos))){
             return true;
         } else {
             return false;

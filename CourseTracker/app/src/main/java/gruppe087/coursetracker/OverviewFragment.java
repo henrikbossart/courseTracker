@@ -154,11 +154,11 @@ public class OverviewFragment extends Fragment {
                 String date = jsonObject.getString("date");
                 String time = jsonObject.getString("time");
                 String room = jsonObject.getString("room");
+                String curriculum = jsonObject.getString("curriculum");
                 lectureAdapter.insertEntry(courseID, date, time, room);
                 int lectureID = lectureAdapter.getLectureID(courseID, date, time, room);
                 userLectureAdapter.insertEntry(lectureID, 0, 0);
-                String text = "Dette er pensum for " + courseID + " " + date + " klokken " + time.substring(0,5) +
-                        " i " + room;
+                String text = curriculum;
                 lectureAdapter.addCurriculum(courseID, date, time, room, text);
             }
         } catch (JSONException e) {

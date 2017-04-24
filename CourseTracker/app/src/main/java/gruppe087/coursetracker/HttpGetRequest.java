@@ -85,6 +85,9 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
         stringURL += "?";
         for (int i = 0; i < Array.getLength(params); i++ ){
             if (i%2 == 0){
+                if(i != 0){
+                    stringURL += "&";
+                }
                 stringURL += params[i];
                 stringURL += "=";
             } else {
