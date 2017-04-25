@@ -39,11 +39,13 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 //Writing request data to console for easier debugging
+/*
 router.use(function (req, res, next) {
     var request_text    = 'Request: ' + req.protocol + '://' + req.hostname + '@' + req.ip + req.path;
     console.log(request_text);
     next();
-})
+});
+*/
 
 /////////////////////////////////////////////////////
 // CONNECTING TO DATABASE

@@ -24,6 +24,26 @@ describe('login', function () {
     });
 });
 
+describe('login-fail', function () {
+    it('should return that no user was found', function () {
+        chai.request(server)
+            .post('/login')
+            .set('Token', 'text/plain')
+            .set('content-type', 'application/x-www-form-urlencoded')
+            .type('form')
+            .send('grant_type=password')
+            .send('username=admin@test')
+            .send('password=admin')
+            .end(function (err, done) {
+                res.should.have.status(200);
+                res.flash.should.be('No user found')
+                expect(res).to.redirectTo('http://138.171.33.197/');
+                done();
+            });
+    });
+});
+
+
 // Testing ability to get courses from database
 describe('home', function () {
     it('should GET all courses in the database', function (done) {
