@@ -2,9 +2,11 @@ package gruppe087.coursetracker;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import android.content.Intent;
+import android.support.test.rule.ActivityTestRule;
 import android.view.View;
 import android.widget.Button;
 import android.app.Instrumentation;
@@ -21,6 +23,13 @@ import android.widget.Toast;
 
 import java.util.Set;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.*;
 
 /**
@@ -28,12 +37,25 @@ import static org.junit.Assert.*;
  */
 public class SetupActivityTest {
 
+    @Rule
+    public ActivityTestRule<SetupActivity> activityTestRule =
+            new ActivityTestRule<SetupActivity>(SetupActivity.class);
 
     @Test
-    public void onCreate() throws Exception {
+    public void clickSignUpButton_openSignUpScreen() {
+        //Locate and click the sign-up button
+        onView(withId(R.id.buttonSignUP)).perform(click());
 
+        // Check if the screen popped up
+        onView(withId(R.id.editTextUserName)).check(matches(allOf(isDescendantOfA(withId(R.id.layout_signup)), isDisplayed())));
     }
 
+    @Test
+    public void clickLoginButton_openLoginScreen() {
+        // Locate and press the sign-in button
+        onView(withId(R.id.buttonSignIN)).perform(click());
 
-
+        // Check that the sign-in page shows up
+        onView(withId(R.id.editTextUserNameToLogin)).check(matches(allOf(isDescendantOfA(withId(R.id.layout_login)), isDisplayed())));
+    }
 }
