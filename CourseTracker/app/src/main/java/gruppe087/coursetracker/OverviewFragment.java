@@ -55,7 +55,7 @@ public class OverviewFragment extends Fragment {
         settings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         lectureAdapter = new LectureAdapter(getContext());
         userLectureAdapter =
-                new UserLectureAdapter(getContext(), settings.getString("username", "default"));
+                new UserLectureAdapter(getContext(), settings.getString("username", "p"));
         initList();
         lectureAdapter.close();
         userLectureAdapter.close();
@@ -70,7 +70,12 @@ public class OverviewFragment extends Fragment {
         userCourseAdapter.open();
         lectureAdapter.open();
         ArrayList<String> returnList = new ArrayList<String>();
-        ArrayList<String> courses = userCourseAdapter.getCoursesForUser(settings.getString("username", "default"));
+
+        String username = settings.getString("username", "p");
+        if(username == null){
+            username = "p";
+        }
+        ArrayList<String> courses = userCourseAdapter.getCoursesForUser(username);
         TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>();
         Date dNow = new Date();
         String date = dateFormat.format(dNow);

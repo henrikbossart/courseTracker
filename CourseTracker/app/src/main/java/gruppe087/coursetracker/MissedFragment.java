@@ -302,7 +302,8 @@ public class MissedFragment extends Fragment {
         time = time + ":00";
         lectureId = lectureAdapter.getLectureID(courseId, thisDate, time, room);
         if (lectureId == -1){
-            ;
+            updateCurriculum(courseId, thisDate);
+            lectureId = lectureAdapter.getLectureID(courseId, thisDate, time, room);
         }
         if (timeValueNow < timeValueLecture){
             listItems.remove(i);
