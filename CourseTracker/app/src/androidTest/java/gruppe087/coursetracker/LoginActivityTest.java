@@ -1,4 +1,4 @@
-package gruppe087.coursetracker;
+/*package gruppe087.coursetracker;
 
 import android.support.test.rule.ActivityTestRule;
 
@@ -18,9 +18,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.*;
 
-/**
- * Created by malfridhendenaaraas on 20.03.2017.
- */
 public class LoginActivityTest {
 
     @Rule
@@ -43,3 +40,4 @@ public class LoginActivityTest {
 
 }
 
+*/
