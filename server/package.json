@@ -1,0 +1,36 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server for lectureres in coursetracker",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc mocha",
+    "start": "node index.js"
+  },
+  "test-unit": "NODE_ENV=test mocha '/**/*.spec.js'",
+  "author": "Henrik Bossart",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "express-myconnection": "^1.0.4",
+    "express-session": "^1.15.2",
+    "jade": "^1.11.0",
+    "logger": "0.0.1",
+    "mocha": "^3.2.0",
+    "morgan": "^1.8.1",
+    "mysql": "^2.13.0",
+    "passport": "^0.3.2",
+    "swig": "^1.4.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "nyc": "^10.2.0"
+  }
+}

@@ -1,3 +1,4 @@
+
 CourseTracker/*.iml
 CourseTracker/*.gradle
 CourseTracker/build/*
@@ -13,3 +14,5 @@ README.md
 LICENSE
 .DS_Store
 .idea/*
+
+server/.idea/.workspace.xml
