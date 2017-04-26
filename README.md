@@ -3,7 +3,7 @@
 Welcome to Coursetracker!  
 Coursetrakcer is an app that allows you to track your courses at NTNU, and informs you about your missed lectures.
 
-## Running the application
+## Running the server
 In order to run the application, you first have to create the database. Make sure you have installed MySQL on your computer or server. Then, run the script called ****
 
 In order to run the server, you have to have Node.js installed on your computer/server. To do this in a bash console, type:
@@ -22,4 +22,5 @@ String stringURL = "http://138.197.33.171/php/" + filename.trim();
 
 To the location where you have put the php folder inside the server folder.
 
-To run the Application you will have to set up your application
+## Running the application
+In order to run the Android application, you can either download Android Studio from `https://developer.android.com/studio/index.html` and flash it to your device, or transfer the file `coursetracker.apk` to your phone.
