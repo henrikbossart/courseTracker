@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_today_overview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="gruppe087.coursetracker.TodayOverviewActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:weightSum="1">
+
+        <TextView
+            android:text="Today, 27.02.17"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:id="@+id/textView2"
+            android:textAlignment="center"
+            android:textSize="26sp"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="434dp"
+            android:id="@+id/lv" />
+
+        <Button
+            android:text="Go to missed lectures"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/today_button"
+            android:textColor="@color/colorAccent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorPrimaryDark" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

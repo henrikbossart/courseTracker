@@ -1,0 +1,29 @@
+{
+  "name": "webportal",
+  "version": "0.0.1",
+  "description": "a portal for lecturers to admin courses",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/henrikbossart/pu087.git"
+  },
+  "author": "Henrik Bossart",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/henrikbossart/pu087/issues"
+  },
+  "homepage": "https://github.com/henrikbossart/pu087#readme",
+  "dependencies": {
+    "babel-loader": "^6.3.2",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "express": "^4.14.1",
+    "mysql": "^2.13.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "webpack": "^2.2.1"
+  }
+}

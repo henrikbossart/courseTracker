@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/henrikbossart/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.1.1/support-annotations-25.1.1.jar"
+        revision="25.0.2"
+        sha1="b59b6ee8d6ecc03e672d253800430343493a6ed8">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/support-annotations-25.1.1-8a3bd5ca70f5151eaec546648baef7dc9ed991d4.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-4cd4fc36ab1af7f0f9df64ed03e9854b4d91d78c.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="c03bf57f358aa10d253f21989e93bcf6014b3b17">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-97ce78a06d97330afae524692a8ba064fd1b93e7.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="7bde4c34162092e0a77e7f12dc85ed77c484cf5c">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-c2a81ed4da41054f2beb90f9aec08f22b761654c.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-6fc2ccd6a7e8b2ffb1a92e560d82c70a9ae04c38.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Library/Android/sdk/platforms/android-25/android.jar"
+        revision="25.0.2"
+        sha1="712a0312fe844a21a1b3812fa960c363a1578984">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackRuntimeLibraries/debug/jars/8000/40/android-f57341ba4a1c25c9f96181fe83d2ef6334d2303d.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-fbb9aad7ca790d2114453c8b8258470469707b5e.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Library/Android/sdk/platforms/android-25/optional/org.apache.http.legacy.jar"
+        revision="25.0.2"
+        sha1="5f0541a4298daa0590b22cfbde43f85e2a675545">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackRuntimeLibraries/debug/jars/8000/40/org.apache.http.legacy-583a253a9e7cdcc1adec99cf595ec78feaa5dd43.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="c9649557905bf7a80fca9e0d54cbcb7662627860">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-85d76cb4e907b93a03ee10cb0d83634751d2b3be.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/design/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="cd7951e04cfb9a8bf008d544a478d9a8d8192d38">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-6f6d19e417bfa35a2a55d6ab92ffb3225e34a572.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/transition/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="15b049fedbd8e3926bf99d9e45dfc9b2a1043bb9">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-3a0224d170790d22b5bde0331a6da94e11db0e38.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="ecb496cc08dd52551fc5ec6db3bc0632e95a89bb">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-bc9a1a0e8a318f70dd1623a499cdd94b3cb5ce1b.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="0d191c1a09e4892d059e5ce749e4ad4e08129e35">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-f1bf61aa580384658b768689167135c75b719e8d.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="02741d05d4b697fba5e279e9881aaa1da0ca7c7f">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-0f0728ac8c50f5584bed2f385e1e9b0587ffb905.jar" />
+    </item>
+    <item
+        jar="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.1/jars/classes.jar"
+        revision="25.0.2"
+        sha1="e2719c102dca3a7a5b02ce07f769362da6ddb4ab">
+        <dex dex="/Users/henrikbossart/Workspace/Programvareutvikling/pu087/CourseTracker/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-552833e9dd5e1270d9ab43f0973cda2b3b03d011.jar" />
+    </item>
+
+</items>
