@@ -1,0 +1,8 @@
+Semester(id (key), year, type)
+Course(courseCode (key), courseName, location, department)
+courseCoordinator(mail (key), name, courseCode (foreign key))
+Lecture(courseCode (foreign key), weekDay, weekNum, startTime, room)
+Lecturer(mail (key), name, courseCode (foreign key))
+
+
+--Eks Lecture(TDT4140, 1, 2, 08:15, R1)--
