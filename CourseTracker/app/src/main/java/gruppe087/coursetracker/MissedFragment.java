@@ -40,7 +40,6 @@ public class MissedFragment extends Fragment {
     HttpGetRequest getRequest;
     UserCourseAdapter userCourseAdapter;
     SharedPreferences settings;
-    public static final String PREFS_NAME = "CTPrefs";
     MissedListAdapter<String> arrayAdapter;
     View rootView;
     LectureAdapter lectureAdapter;
@@ -150,17 +149,11 @@ public class MissedFragment extends Fragment {
         userLectureAdapter = new UserLectureAdapter(getContext(), settings.getString("username", "default"));
         lectureAdapter.open();
         userLectureAdapter.open();
-        Date dNow = new Date();
-        DateFormat dateValueFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        String thisTime = timeFormat.format(dNow);
-        int timeValueNow = Toolbox.timeToInt(thisTime);
-        thisTime = thisTime + ":00";
+
 
 
 
         for (String courseID : courses){
-            boolean missed;
             String result;
             getRequest = new HttpGetRequest("getTodayLecturesForCourse.php");
             try {
@@ -207,34 +200,6 @@ public class MissedFragment extends Fragment {
         return returnList;
     }
 
-    public boolean lectureMissed(String courseID, String time, String date, String room){
-        lectureAdapter = new LectureAdapter(getActivity().getApplicationContext());
-        userLectureAdapter = new UserLectureAdapter(getActivity().getApplicationContext(), settings.getString("username", "default"));
-        lectureAdapter.open();
-        userLectureAdapter.open();
-        time = time + ":00";
-        time = time.substring(0,8);
-        return userLectureAdapter.isMissed(lectureAdapter.getLectureID(courseID, date, time, room));
-    }
-
-    private void updateList(){
-        Date dNow = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String date = dateFormat.format(dNow);
-
-        for (int i = 0; i < listItems.size(); i++){
-            String courseId = listItems.get(i).split("\n|\t")[0];
-            String time = listItems.get(i).split("\n|\t")[3];
-            String room = listItems.get(i).split("\n|\t")[5];
-            Boolean missed = lectureMissed(courseId, time, date, room);
-            if (!missed){
-                listItems.remove(i);
-            }
-
-        }
-
-        arrayAdapter.notifyDataSetChanged();
-    }
 
     private void missedPrompt(int timeValueLecture, final int lectureID, String courseID, String time, final int index){
         String timeNow = timeFormat.format(dNow);
@@ -326,32 +291,6 @@ public class MissedFragment extends Fragment {
 
         }
         missedPrompt(timeValueLecture, lectureId, courseId, time, i);
-    }
-
-
-    private void initList(){
-
-        // Initializing getRequest class
-        Date dNow = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String date = dateFormat.format(dNow);
-        for (int i = 0; i < listItems.size(); i++){
-            String courseId = listItems.get(i).split("\n|\t")[0];
-            String time = listItems.get(i).split("\n|\t")[3];
-            String room = listItems.get(i).split("\n|\t")[5];
-            Boolean missed = lectureMissed(courseId, time, date, room);
-            if (!missed){
-                listItems.remove(i);
-                i--;
-            }
-
-        }
-
-        // Create a List from String Array elements
-        arrayAdapter = new MissedListAdapter<String>(getActivity().getApplicationContext(), R.layout.listitem, R.id.textview, listItems);
-        // DataBind ListView with items from SelectListAdapter
-        missedListView.setAdapter(arrayAdapter);
-        arrayAdapter.notifyDataSetChanged();
     }
 
     @Override

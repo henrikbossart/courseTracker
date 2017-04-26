@@ -14,5 +14,6 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="30sp"
         android:elevation="10dp"
+        android:clickable="false"
         ></TextView>
 </LinearLayout>

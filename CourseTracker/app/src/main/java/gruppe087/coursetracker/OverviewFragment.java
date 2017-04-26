@@ -56,34 +56,34 @@ public class OverviewFragment extends Fragment {
         lectureAdapter = new LectureAdapter(getContext());
         userLectureAdapter =
                 new UserLectureAdapter(getContext(), settings.getString("username", "p"));
+        userCourseAdapter = new UserCourseAdapter(getContext());
         initList();
-        lectureAdapter.close();
-        userLectureAdapter.close();
-        userCourseAdapter.close();
         return rootView;
     }
 
 
     private ArrayList<String> createAgendaList(){
-        userCourseAdapter = new UserCourseAdapter(getContext());
-        userLectureAdapter.open();
-        userCourseAdapter.open();
-        lectureAdapter.open();
         ArrayList<String> returnList = new ArrayList<String>();
-
         String username = settings.getString("username", "p");
         if(username == null){
             username = "p";
         }
+        userCourseAdapter.open();
         ArrayList<String> courses = userCourseAdapter.getCoursesForUser(username);
+        if (courses == null){
+            courses = new ArrayList<String>();
+            courses.add("TDT4100");
+        }
+        userCourseAdapter.close();
         TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>();
         Date dNow = new Date();
         String date = dateFormat.format(dNow);
 
         for (String courseID : courses){
 
+            lectureAdapter.open();
             ArrayList<String> todayLectures = lectureAdapter.getLecturesForToday(courseID);
-            System.out.println();
+            lectureAdapter.close();
             if (todayLectures != null){
                 for (String row : todayLectures){
                     Integer hour = Integer.parseInt(row.split("\n|\t")[3].substring(0,2));
@@ -91,10 +91,14 @@ public class OverviewFragment extends Fragment {
 
                     String time = (row.split("\t|\n")[3] + ":00").substring(0,8);
                     String room = row.split("\t|\n")[5];
+                    lectureAdapter.open();
                     int lectureID = lectureAdapter.getLectureID(courseID, date, time, room);
+                    lectureAdapter.close();
+                    userLectureAdapter.open();
                     if (!userLectureAdapter.entryExists(lectureID)){
                         userLectureAdapter.insertEntry(lectureID, 0, 0);
                     }
+                    userLectureAdapter.close();
                 }
             } else {
                 String result;
@@ -148,8 +152,8 @@ public class OverviewFragment extends Fragment {
             e.printStackTrace();
             result=null;
         }
-        lectureAdapter.open();
-        userLectureAdapter.open();
+
+
         try {
             JSONArray jsonArray = new JSONArray(result);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -160,11 +164,19 @@ public class OverviewFragment extends Fragment {
                 String time = jsonObject.getString("time");
                 String room = jsonObject.getString("room");
                 String curriculum = jsonObject.getString("curriculum");
+
+                lectureAdapter.open();
                 lectureAdapter.insertEntry(courseID, date, time, room);
                 int lectureID = lectureAdapter.getLectureID(courseID, date, time, room);
+                lectureAdapter.addCurriculum(courseID, date, time, room, curriculum);
+                lectureAdapter.close();
+
+                userLectureAdapter.open();
                 userLectureAdapter.insertEntry(lectureID, 0, 0);
-                String text = curriculum;
-                lectureAdapter.addCurriculum(courseID, date, time, room, text);
+                userLectureAdapter.close();
+
+
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

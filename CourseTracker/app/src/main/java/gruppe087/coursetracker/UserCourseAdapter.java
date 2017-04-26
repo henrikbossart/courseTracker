@@ -67,7 +67,7 @@ public class UserCourseAdapter extends DataBaseAdapter {
         if (cursor.getCount() < 1) { // Key does not exist
             cursor.close();
             //Toast.makeText(context, "There is no course with this key pair.", Toast.LENGTH_LONG).show();
-            return null;
+            return courses;
         }
         cursor.moveToFirst();
         for (int i = 0; i < cursor.getCount(); i++){

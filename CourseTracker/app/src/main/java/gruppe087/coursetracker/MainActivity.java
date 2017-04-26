@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        System.out.println(getApplicationContext().toString());
+
 
         //Setting app to active
         active = true;

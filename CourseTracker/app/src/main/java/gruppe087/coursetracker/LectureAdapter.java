@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
+import android.database.sqlite.SQLiteReadOnlyDatabaseException;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -65,9 +66,13 @@ public class LectureAdapter extends DataBaseAdapter {
         String where = "courseID=? AND time=? AND date=?";
         updatedValues.put("curriculum", curriculum);
         try {
-            db.update("lecture", updatedValues, where, new String[]{courseID, time, date});
+
+            dbHelper.getWritableDatabase().update("lecture", updatedValues, where, new String[]{courseID, time, date});
         } catch (SQLiteConstraintException e){
 
+
+        } catch (SQLiteReadOnlyDatabaseException e){
+            e.printStackTrace();
         }
 
     }

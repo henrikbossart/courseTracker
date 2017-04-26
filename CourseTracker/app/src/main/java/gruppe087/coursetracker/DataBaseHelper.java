@@ -39,7 +39,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
 	public void onUpgrade(SQLiteDatabase _db, int _oldVersion, int _newVersion) 
 	{
 			// Log the version upgrade.
-			Log.w("TaskDBAdapter", "Upgrading from version " +_oldVersion + " to " +_newVersion + ", which will destroy all old data");
+			/*Log.w("TaskDBAdapter", "Upgrading from version " +_oldVersion + " to " +_newVersion + ", which will destroy all old data");
 	
 	
 			// Upgrade the existing database to conform to the new version. Multiple
@@ -49,6 +49,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
 			_db.execSQL("DROP TABLE IF EXISTS " + "TEMPLATE");
 			// Create a new one.
 			onCreate(_db);
+			*/
 	}
 	
 
