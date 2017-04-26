@@ -1,16 +1,26 @@
 package gruppe087.coursetracker;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
+import android.os.Build;
+import android.preference.PreferenceManager;
+import android.support.annotation.InterpolatorRes;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +45,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     EditText et;
     HttpGetRequest getRequest;
     ArrayList<String> overview_list;
-    HashSet<Integer> selected = new HashSet<Integer>();
+    HashSet<Position> selected = new HashSet<Position>();
     LoginDataBaseAdapter loginDataBaseAdapter;
     CourseAdapter courseAdapter;
     UserCourseAdapter userCourseAdapter;
@@ -44,6 +54,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     SharedPreferences settings;
     String username;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 
 
 
@@ -51,9 +62,8 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        settings = getSharedPreferences(PREFS_NAME, 0);
+        settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         username = settings.getString("username", "default");
-
 
         // get Instance  of Database Adapter
         courseAdapter = new CourseAdapter(this);
@@ -64,7 +74,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_course_at_setup);
 
         lv = (ListView)findViewById(R.id.initlv);
-        selectListAdapter = new SelectListAdapter<String>(this, listItems, selected);
+        selectListAdapter = new SelectListAdapter<String>(this, listItems, selected, getResources());
 
         //START LISTVIEW
 
@@ -81,7 +91,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
                                     int position, long id) {
                 String selectedFromList = (String)(selectListAdapter.getItem(position));
                 int pos = overview_list.indexOf(selectedFromList);
-
+                boolean isselected = isSelected(pos);
                 if (!isSelected(pos)){
                     view.setBackgroundColor(getResources().getColor(R.color.gray));
                     select(pos);
@@ -94,6 +104,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
             }
         });
+
 
         et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -130,8 +141,10 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Define action on click
+
                 ArrayList<String> courseCodes = new ArrayList<String>();
-                for (int i : selected){
+                for (Position pos : selected){
+                    int i = pos.getValue();
                     String courseCode = overview_list.get(i).split(" ")[0];
                     getRequest = new HttpGetRequest("getCourse.php ");
                     String result;
@@ -179,6 +192,9 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(ChooseCourseAtSetupActivity.this, MainActivity.class);
                 //Optional parameters: myIntent.putExtra("key", value);
                 ChooseCourseAtSetupActivity.this.startActivity(myIntent);
+
+                // Transition
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -192,7 +208,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
             if (selected.contains(index)) {
                 v.setBackgroundColor(getResources().getColor(R.color.gray));
             } else {
-                v.setBackgroundColor(Color.WHITE);
+                v.setBackgroundColor(getResources().getColor(R.color.white));
             }
 
         }
@@ -262,7 +278,7 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
 
         // Create a List from String Array elements
         selectListAdapter = new SelectListAdapter<String>
-                (this, overview_list, selected);
+                (this, overview_list, selected, getResources());
 
 
         // DataBind ListView with items from SelectListAdapter
@@ -284,15 +300,16 @@ public class ChooseCourseAtSetupActivity extends AppCompatActivity {
     }
 
     public void select(int pos){
-        selected.add(pos);
+        selected.add(new Position(pos));
     }
 
     public void deselect (int pos){
-        selected.remove(pos);
+        selected.remove(new Position(pos));
     }
 
     public boolean isSelected(int pos){
-        if(selected.contains(pos)){
+        Position s = new Position(pos);
+        if(selected.contains(s)){
             return true;
         } else {
             return false;

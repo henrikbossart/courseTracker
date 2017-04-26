@@ -19,22 +19,8 @@ public class DataBaseHelper extends SQLiteOpenHelper
 	           super(context, name, factory, version);
 	}
 
-	static final String ADD_LECTURE_TABLE =
-			"CREATE TABLE lecture("+
-			"courseid 	TEXT NOT NULL, " +
-			"time  		TEXT NOT NULL, " +
-			"date		TEXT NOT NULL, " +
-			"room 		TEXT NOT NULL, " +
-			"missed		INT  NOT NULL, " +
-			"PRIMARY KEY(courseid, time, date, room)" +
-			");";
 
-	static final String ADD_USER_COURSE_TABLE =
-			"CREATE TABLE usercourse("+
-			"username 	TEXT NOT NULL,"+
-			"courseid 	TEXT NOT NULL," +
-			"PRIMARY KEY(username, courseid)" +
-			"); ";
+
 	// Called when no database exists in disk and the helper class needs
 	// to create a new one.
 	@Override
@@ -42,8 +28,9 @@ public class DataBaseHelper extends SQLiteOpenHelper
 	{
 			_db.execSQL(LoginDataBaseAdapter.DATABASE_CREATE);
 			_db.execSQL(CourseAdapter.ADD_COURSE_TABLE);
-			_db.execSQL(ADD_LECTURE_TABLE);
-			_db.execSQL(ADD_USER_COURSE_TABLE);
+			_db.execSQL(LectureAdapter.ADD_LECTURE_TABLE);
+			_db.execSQL(UserCourseAdapter.ADD_USER_COURSE_TABLE);
+			_db.execSQL(UserLectureAdapter.ADD_USER_LECTURE_TABLE );
 			
 	}
 	// Called when there is a database version mismatch meaning that the version
@@ -52,7 +39,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
 	public void onUpgrade(SQLiteDatabase _db, int _oldVersion, int _newVersion) 
 	{
 			// Log the version upgrade.
-			Log.w("TaskDBAdapter", "Upgrading from version " +_oldVersion + " to " +_newVersion + ", which will destroy all old data");
+			/*Log.w("TaskDBAdapter", "Upgrading from version " +_oldVersion + " to " +_newVersion + ", which will destroy all old data");
 	
 	
 			// Upgrade the existing database to conform to the new version. Multiple
@@ -62,6 +49,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
 			_db.execSQL("DROP TABLE IF EXISTS " + "TEMPLATE");
 			// Create a new one.
 			onCreate(_db);
+			*/
 	}
 	
 

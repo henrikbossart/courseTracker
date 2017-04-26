@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,8 +22,11 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -39,66 +43,100 @@ public class OverviewFragment extends Fragment {
     OverviewListAdapter<String> arrayAdapter;
     View rootView;
     LectureAdapter lectureAdapter;
+    UserLectureAdapter userLectureAdapter;
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_overview, container, false);
         agendaListView = (ListView) rootView.findViewById(R.id.agenda_lv);
-        settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        settings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         lectureAdapter = new LectureAdapter(getContext());
+        userLectureAdapter =
+                new UserLectureAdapter(getContext(), settings.getString("username", "p"));
+        userCourseAdapter = new UserCourseAdapter(getContext());
         initList();
         return rootView;
     }
 
 
     private ArrayList<String> createAgendaList(){
-        userCourseAdapter = new UserCourseAdapter(getContext());
-        userCourseAdapter.open();
         ArrayList<String> returnList = new ArrayList<String>();
-        ArrayList<String> courses = userCourseAdapter.getCoursesForUser(settings.getString("username", "default"));
+        String username = settings.getString("username", "p");
+        if(username == null){
+            username = "p";
+        }
+        userCourseAdapter.open();
+        ArrayList<String> courses = userCourseAdapter.getCoursesForUser(username);
+        if (courses == null){
+            courses = new ArrayList<String>();
+            courses.add("TDT4100");
+        }
+        userCourseAdapter.close();
         TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>();
+        Date dNow = new Date();
+        String date = dateFormat.format(dNow);
 
         for (String courseID : courses){
-            String result;
-            getRequest = new HttpGetRequest("getTodayLecturesForCourse.php");
-            try {
-                result = getRequest.execute("courseID", courseID).get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                result=null;
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-                result=null;
-            }
 
-            try {
-                JSONArray jsonArray = new JSONArray(result);
-                for (int i = 0; i < jsonArray.length(); i++) {
+            lectureAdapter.open();
+            ArrayList<String> todayLectures = lectureAdapter.getLecturesForToday(courseID);
+            lectureAdapter.close();
+            if (todayLectures != null){
+                for (String row : todayLectures){
+                    Integer hour = Integer.parseInt(row.split("\n|\t")[3].substring(0,2));
+                    sortMap.put(hour, row);
 
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    courseID = jsonObject.getString("courseID");
-                    String courseName = jsonObject.getString("courseName");
-                    String time = jsonObject.getString("time");
-                    String room = jsonObject.getString("room");
-                    String row = courseID + "\n" + courseName + "\nTid:\t" + time + "\nRom:\t" + room;
-                    Integer hour = Integer.parseInt(time.split(":")[0]);
-                    sortMap.put(hour,row);
+                    String time = (row.split("\t|\n")[3] + ":00").substring(0,8);
+                    String room = row.split("\t|\n")[5];
+                    lectureAdapter.open();
+                    int lectureID = lectureAdapter.getLectureID(courseID, date, time, room);
+                    lectureAdapter.close();
+                    userLectureAdapter.open();
+                    if (!userLectureAdapter.entryExists(lectureID)){
+                        userLectureAdapter.insertEntry(lectureID, 0, 0);
+                    }
+                    userLectureAdapter.close();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else {
+                String result;
+                getRequest = new HttpGetRequest("getTodayLecturesForCourse.php");
+                try {
+                    result = getRequest.execute("courseID", courseID).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    result=null;
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                    result=null;
+                }
+
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        courseID = jsonObject.getString("courseID");
+                        String courseName = jsonObject.getString("courseName");
+                        String time = jsonObject.getString("time");
+                        String room = jsonObject.getString("room");
+                        String row = courseID + "\n" + courseName + "\nTid:\t" + time + "\nRom:\t" + room;
+                        Integer hour = Integer.parseInt(time.split(":")[0]);
+                        sortMap.put(hour,row);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                addLecturesToSQLite(courseID);
             }
-            addLecturesToSQLite(courseID);
-
-
-
-
         }
 
         for (Map.Entry<Integer, String> entry : sortMap.entrySet()){
             returnList.add(entry.getValue());
         }
-
+        MainActivity.setListItems(returnList);
         return returnList;
     }
 
@@ -114,7 +152,8 @@ public class OverviewFragment extends Fragment {
             e.printStackTrace();
             result=null;
         }
-        lectureAdapter.open();
+
+
         try {
             JSONArray jsonArray = new JSONArray(result);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -124,12 +163,25 @@ public class OverviewFragment extends Fragment {
                 String date = jsonObject.getString("date");
                 String time = jsonObject.getString("time");
                 String room = jsonObject.getString("room");
-                lectureAdapter.insertEntry(courseID, date, time, room, "0");
+                String curriculum = jsonObject.getString("curriculum");
+
+                lectureAdapter.open();
+                lectureAdapter.insertEntry(courseID, date, time, room);
+                int lectureID = lectureAdapter.getLectureID(courseID, date, time, room);
+                lectureAdapter.addCurriculum(courseID, date, time, room, curriculum);
+                lectureAdapter.close();
+
+                userLectureAdapter.open();
+                userLectureAdapter.insertEntry(lectureID, 0, 0);
+                userLectureAdapter.close();
+
+
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        lectureAdapter.close();
+
     }
 
 

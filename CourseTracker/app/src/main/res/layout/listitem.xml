@@ -12,5 +12,8 @@
         android:layout_margin="30px"
         android:background="@drawable/list_element_shape"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="30sp"></TextView>
+        android:textSize="30sp"
+        android:elevation="10dp"
+        android:clickable="false"
+        ></TextView>
 </LinearLayout>
