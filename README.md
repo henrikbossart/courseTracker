@@ -22,6 +22,8 @@ It is recomended that you run the server and the database on remote servers. You
 String stringURL = "http://138.197.33.171/php/" + filename.trim();
 ```
 
+!!!Until July 2017, you just have to install the Android app on your phone, and not change anything, server will be up until then!!!
+
 To the location where you have put the php folder inside the server folder.
 
 ## Running the application
