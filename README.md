@@ -4,7 +4,9 @@ Welcome to Coursetracker!
 Coursetrakcer is an app that allows you to track your courses at NTNU, and informs you about your missed lectures.
 
 ## Running the server
-In order to run the application, you first have to create the database. Make sure you have installed MySQL on your computer or server. Then, run the script called ****
+In order to run the application, you first have to create the database. Make sure you have installed MySQL on your computer or server.
+
+Then install all the modules stated at the top of all the python scripts in the folder server_scripts. Make sure you have a csv file with all the courses you want to scrape lectures from which have the correct file path stated in manipulateCSV.py inside the folder server_scripts/scraper and then run the script called MainLectureScraper.py to start scraping lectures. All the lectures will be written in a new csv file descending regarding course code and lecture date ready to be imported to a database.
 
 In order to run the server, you have to have Node.js installed on your computer/server. To do this in a bash console, type:
 
